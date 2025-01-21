@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="280" height="48" viewBox="0 0 280 48" fill="none">
+<rect  x="0" y="0" width="280" height="48" rx="8"    fill="#FFFFFF" >
+</rect>
+<path fill-rule="evenodd"  fill="rgba(229, 229, 229, 1)"  d="M272 0L8 0C3.58172 0 0 3.58172 0 8L0 40C0 44.4183 3.58172 48 8 48L272 48C276.418 48 280 44.4183 280 40L280 8C280 3.58172 276.418 0 272 0ZM1 8C1 4.13401 4.13401 1 8 1L272 1C275.866 1 279 4.13401 279 8L279 40C279 43.866 275.866 47 272 47L8 47C4.13401 47 1 43.866 1 40L1 8Z">
+</path>
+</svg>
