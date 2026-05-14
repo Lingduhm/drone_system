@@ -10,16 +10,16 @@
     </div>
 
     <!-- 操作按钮 -->
-    <div class="action-buttons-form">
-      <button class="btn btn-save" @click="handleSave">
-        <img src="@/assets/UI/保存白色.svg" alt="保存">
-        <span>保存</span>
-      </button>
-      <button class="btn btn-cancel" @click="$router.push('/template')">
-        <img src="@/assets/UI/删除白色.svg" alt="取消">
-        <span>取消</span>
-      </button>
-    </div>
+<div class="action-buttons">
+  <button class="btn btn-save" @click="handleSave">
+    <img src="@/assets/UI/保存白色.svg" alt="保存">
+    <span>保存</span>
+  </button>
+  <button class="btn btn-cancel" @click="$router.push('/template')">
+    <img src="@/assets/UI/删除白色.svg" alt="取消">
+    <span>取消</span>
+  </button>
+</div>
 
     <!-- 模板信息容器 -->
     <div class="info-container">
@@ -98,20 +98,31 @@ export default {
       type: currentType.value // 注意这里要用 .value
     })
 
-    const handleSave = async () => {
-      if (!formData.value.title || !formData.value.creator) {
-        alert('请填写必要信息')
-        return
-      }
+const handleSave = async () => {
+  if (!formData.value.title || !formData.value.creator) {
+    alert('请填写必要信息');
+    return;
+  }
 
-      try {
-        await store.dispatch('templates/addTemplate', formData.value)
-        router.push('/template')
-      } catch (error) {
-        console.error('保存模板失败:', error)
-        alert('保存失败，请重试')
-      }
-    }
+  try {
+    // 添加所有表单数据
+    const templateData = {
+      title: formData.value.title,
+      creator: formData.value.creator,
+      password: formData.value.password,
+      contact: formData.value.contact,
+      description: formData.value.description,
+      ...formData.value,
+      type: currentType.value // 模板类型
+    };
+
+    await store.dispatch('templates/addTemplate', templateData);
+    router.push('/template');
+  } catch (error) {
+    console.error('保存模板失败:', error);
+    alert('保存失败，请重试');
+  }
+}
 
     return {
       formData,
@@ -164,14 +175,14 @@ export default {
   }
 }
 
-.action-buttons-form {
+.action-buttons {
   display: flex;
   gap: 1vw;
   margin: 1vw 0 1.5vw;
 }
 
 .btn {
-  width: 18.5vw;
+  width: 17vw; // 修改宽度为17vw
   padding: 0.7vw 1vw;
   border: none;
   border-radius: 0.3vw;
@@ -179,9 +190,9 @@ export default {
   font-size: 0.9vw;
   color: white;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.7vw;
+  align-items: left;
+  justify-content: left;
+  gap: 1vw;
   transition: transform 0.3s;
 
   img {

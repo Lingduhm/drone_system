@@ -1,0 +1,15 @@
+{
+  "id": "m6eq39u2",
+  "title": "柏林噪声",
+  "creator": "Ling_du",
+  "password": "123456789",
+  "contact": "18088888888",
+  "description": "测试用风型，标准风型文件",
+  "type": "风型",
+  "createTime": "2025-01-27T07:24:13.323Z",
+  "originalConfigFileName": "wind_1737994705595.js",
+  "configFile": {
+    "originalName": "wind.js",
+    "systemName": "wind_1739810020575.js"
+  }
+}

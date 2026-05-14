@@ -29,12 +29,12 @@
       </div>
 
       <!-- 表单内容 -->
-      <div class="info-container">
+      <div class="info-container" v-if="fragmentData"> <!-- 添加 v-if 保护 -->
         <div class="form-group">
           <label>片段名称</label>
           <input 
             type="text" 
-            v-model="formData.title"
+            v-model="fragmentData.title"
             placeholder="可变截面、强度标准湍流"
           >
         </div>
@@ -43,7 +43,7 @@
           <label>负责人</label>
           <input 
             type="text" 
-            v-model="formData.creator"
+            v-model="fragmentData.creator"
             placeholder="张三"
           >
         </div>
@@ -52,7 +52,7 @@
           <label>密码 <span class="password-hint">仅支持数字</span></label>
           <input 
             type="password" 
-            v-model="formData.password"
+            v-model="fragmentData.password"
             placeholder="123456789"
           >
         </div>
@@ -61,7 +61,7 @@
           <label>联系电话</label>
           <input 
             type="tel" 
-            v-model="formData.contact"
+            v-model="fragmentData.contact"
             placeholder="18088888888"
           >
         </div>
@@ -69,7 +69,7 @@
         <div class="form-group">
           <label>片段简介</label>
           <textarea 
-            v-model="formData.description"
+            v-model="fragmentData.description"
             placeholder="请输入片段简介..."
           ></textarea>
         </div>
@@ -86,7 +86,11 @@
           <img src="@/assets/UI/上传白色.svg" alt="上传">
           <span>上传风片段配置文件</span>
         </button>
-        <button class="btn btn-blue">
+        <button 
+    class="btn btn-blue" 
+    @click="handleWindDownload"
+    :disabled="!uploadedWindFile"
+  >
           <img src="@/assets/UI/下载白色.svg" alt="下载">
           <span>下载风片段配置文件</span>
         </button>
@@ -105,7 +109,11 @@
           <img src="@/assets/UI/上传白色.svg" alt="上传">
           <span>上传雨雾片段配置文件</span>
         </button>
-        <button class="btn btn-blue">
+        <button 
+    class="btn btn-blue" 
+    @click="handleRainDownload"
+    :disabled="!uploadedRainFile"
+  >
           <img src="@/assets/UI/下载白色.svg" alt="下载">
           <span>下载雨雾片段配置文件</span>
         </button>
@@ -145,18 +153,19 @@
       <!-- 风扇网格容器 -->
       <div class="fan-grid-container">
         <div class="fan-grid">
-          <div 
-            v-for="group in 144" 
-            :key="'group-' + group" 
-            class="fan-group"
-          >
-            <div 
-              v-for="fan in 9" 
-              :key="'fan-' + group + '-' + fan" 
-              class="fan"
-            ></div>
-          </div>
-        </div>
+  <div 
+    v-for="group in 144" 
+    :key="'group-' + group"
+    class="fan-group"
+  >
+    <div 
+      v-for="fan in 9" 
+      :key="'fan-' + group + '-' + fan"
+      class="fan"
+      :style="getFanStyle(group - 1, fan - 1)"
+    ></div>
+  </div>
+</div>
       </div>
 
       <!-- 渐变条 -->
@@ -171,30 +180,38 @@
 
       <!-- 进度条和控制按钮 -->
       <div class="control-panel">
-        <div class="progress-bar">
-          <div class="progress"></div>
-          <div class="progress-handle"></div>
-        </div>
-        <div class="progress-text">1:00 / 4:00</div>
-        <div class="control-buttons">
-          <button class="control-btn terminal-btn">
-            <img src="@/assets/UI/终端白色.svg" alt="Record">
-          </button>
-          <div class="playback-buttons">
-            <button class="control-btn">
-              <div class="pause-icon">
-                <div class="pause-line"></div>
-                <div class="pause-line"></div>
-              </div>
-            </button>
-            <button class="control-btn">
-              <div class="play-icon"></div>
-            </button>
-            <button class="control-btn">
-              <div class="stop-icon"></div>
-            </button>
-          </div>
-        </div>
+        <div class="progress-bar"
+        @click="handleProgressClick">
+  <div 
+    class="progress" 
+    :style="{ width: `${playbackProgress}%` }"
+  ></div>
+  <div 
+    class="progress-handle" 
+    :style="{ left: `${playbackProgress}%` }"
+    @mousedown="handleDragStart"
+  ></div>
+</div>
+<div class="progress-text">{{ currentTime }} / {{ totalTime }}</div>
+
+<!-- 控制按钮 -->
+<div class="control-buttons">
+  <button class="control-btn terminal-btn" @click="openTerminal">
+    <img src="@/assets/UI/终端白色.svg" alt="Record">
+  </button>
+  <div class="playback-buttons">
+    <button class="control-btn" @click="togglePlayback">
+      <div v-if="isPaused || !isPlaying" class="play-icon"></div>
+      <div v-else class="pause-icon">
+        <div class="pause-line"></div>
+        <div class="pause-line"></div>
+      </div>
+    </button>
+    <button class="control-btn" @click="stopPlayback">
+      <div class="stop-icon"></div>
+    </button>
+  </div>
+</div>
       </div>
     </div>
   </div>
@@ -208,7 +225,7 @@
             <img src="@/assets/UI/上传白色.svg" alt="上传">
             <span>上传配置文件</span>
           </button>
-          <button class="btn btn-blue">
+          <button class="btn btn-blue" @click="handleDocDownload">
             <img src="@/assets/UI/下载白色.svg" alt="下载">
             <span>下载配置文件</span>
           </button>
@@ -242,118 +259,552 @@
 </template>
 
 <script>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import fileService from '@/services/fileService';
-//import projectService from '@/services/projectService';
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { useStore } from 'vuex'
+import { marked } from 'marked'
+import fragmentService from '@/services/fragmentService'
+import fileService from '@/services/fileService'
 
 export default {
   name: 'FragmentDetail',
-  props: {
-    type: {
-      type: String,
-      default: 'fragment-detail'  // 修改默认值
-    }
-  },
+  
   setup() {
-    const router = useRouter();
-    const currentTab = ref('基本');
-    const fragmentTabs = ['基本', '函数', '使用文档', '删除片段'];
-    const uploadedWindFile = ref(null);
-    const uploadedRainFile = ref(null);
-    const runMode = ref('');
-    
-    const switchTab = (tab) => {
-      currentTab.value = tab;
-    };
+    const router = useRouter()
+    const route = useRoute()
+    const store = useStore()
 
-    const formData = ref({
+    // 基础状态
+    const currentTab = ref('基本')
+    const fragmentTabs = ['基本', '函数', '使用文档', '删除片段']
+    const uploadedDoc = ref(null)
+    const uploadedWindFile = ref(null)
+    const uploadedRainFile = ref(null)
+    const runMode = ref('')
+    const markdownContent = ref('')
+    const isDragging = ref(false);
+    
+    // 获取项目ID和片段ID
+    const projectId = route.query.projectId
+    const fragmentId = route.params.id
+    
+    // 片段表单数据
+    const fragmentData = ref({
       title: '',
       creator: '',
       password: '',
       contact: '',
       description: ''
-    });
+    })
 
-    const handleWindUpload = () => {
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = '.csv';
-      input.onchange = async (e) => {
-        const file = e.target.files[0];
-        if (file) {
-          uploadedWindFile.value = file;
-          
-          try {
-            const result = await fileService.uploadFragmentFile(file);
-            console.log('风片段文件上传成功:', result);
-          } catch (error) {
-            console.error('文件上传失败:', error);
+// 播放控制相关计算属性
+const isPlaying = computed(() => store.state.fragmentPlayback.isPlaying)
+const isPaused = computed(() => store.state.fragmentPlayback.isPaused)
+const matrixColors = computed(() => store.getters['fragmentPlayback/matrixColors'])
+const playbackProgress = computed(() => store.getters['fragmentPlayback/playbackProgress'])
+const currentTime = computed(() => store.getters['fragmentPlayback/currentTime'])
+const totalTime = computed(() => store.getters['fragmentPlayback/totalTime'])
+
+    // 加载片段信息
+    const loadFragmentInfo = async () => {
+      try {
+        const info = await fragmentService.getFragmentInfo(projectId, fragmentId)
+        if (info) {
+          fragmentData.value = info
+        }
+      } catch (error) {
+        console.error('获取片段信息失败:', error)
+      }
+    }
+
+    // 获取风扇样式
+const getFanStyle = (groupIndex, fanIndex) => {
+  if (!matrixColors.value) {
+    return { backgroundColor: 'rgb(232, 232, 232)' };
+  }
+
+  const rowGroup = Math.floor(groupIndex / 12);
+  const colGroup = groupIndex % 12;
+  const subRow = Math.floor(fanIndex / 3);
+  const subCol = fanIndex % 3;
+  const row = rowGroup * 3 + subRow;
+  const col = colGroup * 3 + subCol;
+  
+  // 添加越界检查
+  if (row >= 36 || col >= 36 || row < 0 || col < 0) {
+    return { backgroundColor: 'rgb(232, 232, 232)' };
+  }
+  
+  return {
+    backgroundColor: matrixColors.value[row][col]
+  };
+};
+
+// 播放控制
+const togglePlayback = () => {
+  if (!isPlaying.value) {
+    store.dispatch('fragmentPlayback/startPlayback');
+  } else if (isPaused.value) {
+    store.dispatch('fragmentPlayback/resumePlayback');
+  } else {
+    store.dispatch('fragmentPlayback/pausePlayback');
+  }
+};
+
+const stopPlayback = () => {
+  store.dispatch('fragmentPlayback/stopPlayback')
+}
+
+    // 终端控制
+    const openTerminal = () => {
+  try {
+    const terminalWindow = window.open('/terminal.html', '_blank');
+    if (terminalWindow) {
+      store.commit('fragmentPlayback/SET_TERMINAL_WINDOW', true);
+      
+      // 监听终端窗口关闭
+      const checkInterval = setInterval(() => {
+        if (terminalWindow.closed) {
+          clearInterval(checkInterval);
+          store.commit('fragmentPlayback/SET_TERMINAL_WINDOW', false);
+        }
+      }, 1000);
+    } else {
+      alert('弹窗被浏览器阻止，请允许弹窗后重试');
+    }
+  } catch (error) {
+    console.error('打开终端窗口失败:', error);
+  }
+};
+
+//每次上传新csv文件后重新处理产生pwm文件
+const handleWindUpload = async () => {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.csv';
+  input.onchange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        // 首先读取文件获取模板ID
+        const reader = new FileReader();
+        const templateId = await new Promise((resolve, reject) => {
+          reader.onload = (event) => {
+            const firstLine = event.target.result.split('\n')[0];
+            const fields = firstLine.split(',');
+            if (fields[1] && fields[1].trim()) {
+              resolve(fields[1].trim());
+            } else {
+              reject(new Error('无效的模板ID'));
+            }
+          };
+          reader.onerror = () => reject(new Error('读取文件失败'));
+          reader.readAsText(file);
+        });
+
+        // 上传 CSV 文件
+        const formData = new FormData();
+        formData.append('file', file);
+        const uploadResult = await fileService.uploadFragmentConfig(
+          projectId,
+          fragmentId,
+          'wind',
+          file
+        );
+
+        if (uploadResult.success) {
+          uploadedWindFile.value = {
+            name: file.name,
+            fullName: uploadResult.filename
+          };
+
+          // CSV 上传成功后立即进行处理
+          const csvPath = `data/csv_files/fragment/${uploadResult.filename}`;
+          const processResult = await fileService.processFragmentFile(
+            csvPath,
+            fragmentId,
+            projectId,
+            templateId,
+            true  // 添加一个强制处理的标志
+          );
+
+          if (processResult.success) {
+            // 加载新生成的 PWM 数据进行播放
+            await store.dispatch('fragmentPlayback/loadPlaybackData', processResult.processedFile);
           }
         }
-      };
-      input.click();
-    };
-
-    const handleRainUpload = () => {
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = '.csv';
+      } catch (error) {
+        console.error('上传失败:', error);
+        uploadedWindFile.value = null;
+      }
+    }
+  };
+  input.click();
+};
+    const handleRainUpload = async () => {
+      const input = document.createElement('input')
+      input.type = 'file'
+      input.accept = '.csv'
       input.onchange = async (e) => {
-        const file = e.target.files[0];
+        const file = e.target.files[0]
         if (file) {
-          uploadedRainFile.value = file;
-          
           try {
-            const result = await fileService.uploadFragmentFile(file);
-            console.log('雨雾片段文件上传成功:', result);
+            uploadedRainFile.value = file
+            const result = await fileService.uploadFragmentConfig(
+              projectId,
+              fragmentId,
+              'rain',
+              file
+            )
+            if (result.success) {
+              uploadedRainFile.value = {
+                name: file.name,
+                fullName: result.filename
+              }
+            }
           } catch (error) {
-            console.error('文件上传失败:', error);
+            console.error('文件上传失败:', error)
+            uploadedRainFile.value = null
           }
         }
-      };
-      input.click();
-    };
+      }
+      input.click()
+    }
 
+    // 文件下载处理
+    const handleWindDownload = async () => {
+      if (uploadedWindFile.value?.fullName) {
+        try {
+          await fragmentService.downloadFragmentConfig(
+            projectId,
+            fragmentId,
+            'wind',
+            uploadedWindFile.value.fullName
+          )
+        } catch (error) {
+          console.error('下载失败:', error)
+        }
+      }
+    }
+
+    const handleRainDownload = async () => {
+      if (uploadedRainFile.value?.fullName) {
+        try {
+          await fragmentService.downloadFragmentConfig(
+            projectId,
+            fragmentId,
+            'rain',
+            uploadedRainFile.value.fullName
+          )
+        } catch (error) {
+          console.error('下载失败:', error)
+        }
+      }
+    }
+
+    // 文档相关处理
+    const handleDocUpload = async () => {
+      const input = document.createElement('input')
+      input.type = 'file'
+      input.accept = '.md'
+      input.onchange = async (e) => {
+        const file = e.target.files[0]
+        if (file) {
+          try {
+            uploadedDoc.value = file
+            const reader = new FileReader()
+            reader.onload = async (event) => {
+              await fragmentService.uploadFragmentDocument(projectId, fragmentId, file)
+              markdownContent.value = marked(event.target.result)
+            }
+            reader.readAsText(file)
+          } catch (error) {
+            console.error('文档上传失败:', error)
+            alert('上传失败，请重试')
+            uploadedDoc.value = null
+            markdownContent.value = ''
+          }
+        }
+      }
+      input.click()
+    }
+
+    const handleDocDownload = async () => {
+      try {
+        await fragmentService.downloadFragmentDocument(projectId, fragmentId)
+      } catch (error) {
+        console.error('下载文档失败:', error)
+        alert('下载失败，请重试')
+      }
+    }
+
+    // 运行模式设置
     const setRunMode = (mode) => {
       if (!uploadedWindFile.value) {
-        alert('请先上传风片段配置文件');
-        return;
+        alert('请先上传配置文件')
+        return
       }
-      runMode.value = mode;
-    };
+      runMode.value = mode
 
+  // 通知服务器切换仿真模式
+  if (store.state.fragmentPlayback.ws) {
+    store.state.fragmentPlayback.ws.send(JSON.stringify({
+      type: 'SET_RUN_MODE',
+      mode
+    }));
+  }
+    }
+
+    // 基本信息处理
     const handleSave = async () => {
-      console.log('保存片段');
-    };
+      try {
+        await fragmentService.updateFragmentInfo(
+          projectId,
+          fragmentId,
+          fragmentData.value
+        )
+        alert('保存成功')
+      } catch (error) {
+        console.error('保存失败:', error)
+        alert('保存失败，请重试')
+      }
+    }
 
     const handleCancel = () => {
-      router.push('/experiment/edit');
-    };
+      router.push({
+        path: '/experiment/edit',
+        query: { projectId }
+      })
+    }
 
-    const handleDelete = () => {
-      if (confirm('确定要删除该片段吗？此操作不可恢复！')) {
-        router.push('/experiment/edit');
+    const handleDelete = async () => {
+  if (confirm('确定要删除该片段吗？此操作不可恢复！')) {
+    try {
+      const projectId = route.query.projectId;
+      const fragmentId = route.params.id;
+      await fragmentService.deleteFragment(projectId, fragmentId);
+      // 删除成功后跳转回片段列表页面
+      router.push({
+        path: '/experiment/edit',
+        query: { projectId }
+      });
+    } catch (error) {
+      console.error('删除片段失败:', error);
+      alert('删除失败，请重试');
+    }
+  }
+};
+
+    // 标签切换
+    const switchTab = (tab) => {
+      currentTab.value = tab
+      if (tab === '使用文档') {
+        handleGetDocument()
+      } else if (tab === '函数') {
+        loadConfigFiles()
       }
-    };
+    }
+
+    // 获取文档
+    const handleGetDocument = async () => {
+      if (projectId && fragmentId) {
+        try {
+          const doc = await fragmentService.getFragmentDocument(projectId, fragmentId)
+          if (doc && doc.content) {
+            markdownContent.value = marked(doc.content)
+            uploadedDoc.value = { name: doc.filename }
+          }
+        } catch (error) {
+          console.error('获取文档失败:', error)
+        }
+      }
+    }
+
+// 加载配置文件
+const loadConfigFiles = async () => {
+  try {
+    const configFiles = await fragmentService.getFragmentConfigFile(projectId, fragmentId);
+    
+    // 处理风配置文件
+    if (configFiles?.windConfig) {
+      // 设置文件显示信息
+      uploadedWindFile.value = {
+        name: configFiles.windConfig.split('-').slice(2).join('-'),
+        fullName: configFiles.windConfig
+      };
+      
+      try {
+        // 获取模板ID
+        const templateId = await readFirstLineOfCSV(configFiles.windConfig);
+        console.log('获取到的模板ID:', templateId); // 添加调试日志
+        
+        if (!templateId) {
+          throw new Error('无效的模板ID');
+        }
+
+        // 构建CSV文件路径
+        const csvFilename = configFiles.windConfig; // 直接使用文件名
+
+        // 处理文件并获取PWM数据
+        const result = await fileService.processFragmentFile(
+          csvFilename, 
+          fragmentId, 
+          projectId, 
+          templateId
+        );
+        
+        if (result.success) {
+          // 加载播放数据
+          await store.dispatch('fragmentPlayback/loadPlaybackData', result.processedFile);
+        }
+      } catch (error) {
+        console.error('处理wind配置文件失败:', error);
+        throw error;
+      }
+    }
+
+    // 处理雨配置文件
+    if (configFiles?.rainConfig) {
+      uploadedRainFile.value = {
+        name: configFiles.rainConfig.split('-').slice(2).join('-'),
+        fullName: configFiles.rainConfig
+      };
+    }
+  } catch (error) {
+    console.error('加载配置文件失败:', error);
+    // 可以添加用户提示
+    alert('加载配置文件失败，请检查文件格式');
+  }
+};
+
+const readFirstLineOfCSV = async (filename) => {
+  try {
+    // 发送请求获取第一行数据
+    const response = await fetch(`http://${window.location.hostname}:3000/api/csv/firstline/${filename}`);
+    const data = await response.json();
+    
+    if (!data.success) {
+      console.error('读取CSV失败:', data.message);
+      throw new Error(data.message || '读取CSV文件失败');
+    }
+    
+    return data.templateId;
+  } catch (error) {
+    console.error('读取CSV第一行失败:', error);
+    // 重新抛出错误，让上层函数处理
+    throw new Error(`读取CSV文件失败: ${error.message}`);
+  }
+};
+
+const handleProgressClick = (e) => {
+    if (!isPlaying.value) return;
+    
+    const rect = e.target.getBoundingClientRect();
+    const percentage = (e.clientX - rect.left) / rect.width;
+    const frameNumber = Math.floor(store.state.fragmentPlayback.totalFrames * percentage);
+    store.dispatch('fragmentPlayback/seekTo', frameNumber);
+};
+
+const handleDragStart = () => {
+    if (!isPlaying.value) return;
+    
+    isDragging.value = true;
+    store.dispatch('fragmentPlayback/pausePlayback');
+    
+    window.addEventListener('mousemove', handleDrag);
+    window.addEventListener('mouseup', handleDragEnd);
+};
+
+const handleDrag = (e) => {
+    if (!isDragging.value) return;
+    
+    const progressBar = document.querySelector('.progress-bar');
+    const rect = progressBar.getBoundingClientRect();
+    const percentage = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    const frameNumber = Math.floor(store.state.fragmentPlayback.totalFrames * percentage);
+    
+    store.dispatch('fragmentPlayback/seekTo', frameNumber);
+};
+
+const handleDragEnd = () => {
+    if (!isDragging.value) return;
+    
+    isDragging.value = false;
+    window.removeEventListener('mousemove', handleDrag);
+    window.removeEventListener('mouseup', handleDragEnd);
+};
+
+    // 生命周期钩子
+    onMounted(async () => {
+    try {
+        await loadFragmentInfo();
+        await store.dispatch('fragmentPlayback/connectWebSocket');
+        
+        if (currentTab.value === '函数') {
+            await loadConfigFiles();
+        } else if (currentTab.value === '使用文档') {
+            await handleGetDocument();
+        }
+    } catch (error) {
+        console.error('组件初始化失败:', error);
+    }
+});
+
+onUnmounted(() => {
+  store.dispatch('fragmentPlayback/stopPlayback');
+  handleDragEnd();
+  uploadedDoc.value = null;
+  // 清理防抖定时器
+  if (store.state.fragmentPlayback.seekDebounceTimer) {
+    clearTimeout(store.state.fragmentPlayback.seekDebounceTimer);
+  }
+  // 清理 websocket
+  const ws = store.state.fragmentPlayback.ws;
+  if (ws) {
+    ws.close();
+  }
+  store.commit('fragmentPlayback/SET_TERMINAL_WINDOW', false);
+  store.dispatch('fragmentPlayback/clearPlaybackData');
+});
 
     return {
       currentTab,
       fragmentTabs,
-      formData,
+      fragmentData,
       uploadedWindFile,
       uploadedRainFile,
       runMode,
+      uploadedDoc,
+      markdownContent,
+      isPlaying,
+      isPaused,
+      playbackProgress,
+      currentTime,
+      totalTime,
+      matrixColors,
       handleWindUpload,
       handleRainUpload,
+      handleWindDownload,
+      handleRainDownload,
       setRunMode,
       handleSave,
       handleCancel,
       handleDelete,
-      switchTab
-    };
+      switchTab,
+      handleDocUpload,
+      handleDocDownload,
+      getFanStyle,
+      togglePlayback,
+      stopPlayback,
+      openTerminal,
+      handleProgressClick,
+      handleDragStart,
+      isDragging,
+      handleDrag,
+      handleDragEnd
+    }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

@@ -96,63 +96,92 @@
       </div>
     </template>
 
-    <!-- 动捕设置页面 -->
+    <!-- 动捕设置页面 - 更新部分 -->
     <template v-if="currentTab === '动捕设置'">
-  <div class="mocap-settings">
-    <!-- 空容器 -->
-    <div class="empty-container"></div>
+      <div class="mocap-settings">
+        <!-- 三维显示容器 -->
+        <div class="containers-row">
+          <div class="empty-container">
+            <ThreeScene />
+          </div>
+        </div>
 
-    <!-- XYZ数据表格 -->
-    <div class="table-container">
-      <table class="xyz-table">
-        <thead>
-          <tr>
-            <th>时间 (s)</th>
-            <th>X</th>
-            <th>Y</th>
-            <th>Z</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="record in xyzRecords" :key="record.id">
-            <td>{{ record.time }}</td>
-            <td>{{ record.x }}</td>
-            <td>{{ record.y }}</td>
-            <td>{{ record.z }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+        <!-- 数据表格行 -->
+        <div class="containers-row">
+          <div class="table-container">
+            <table class="xyz-table">
+              <thead>
+                <tr>
+                  <th>时间 (s)</th>
+                  <th>X</th>
+                  <th>Y</th>
+                  <th>Z</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="record in displayRecords" :key="record.frameIndex">
+                  <td>{{ record.time }}</td>
+                  <td>{{ record.x }}</td>
+                  <td>{{ record.y }}</td>
+                  <td>{{ record.z }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 控制按钮行 -->
+        <div class="containers-row">
+          <div class="control-container">
+            <div class="playback-buttons">
+              <button class="control-btn" @click="togglePlayback">
+                <div v-if="isPaused || !isPlaying" class="play-icon"></div>
+                <div v-else class="pause-icon">
+                  <div class="pause-line"></div>
+                  <div class="pause-line"></div>
+                </div>
+              </button>
+              <button class="control-btn" @click="stop">
+                <div class="stop-icon"></div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </template>
 
     <!-- 使用文档页面 -->
     <template v-if="currentTab === '使用文档'">
-      <div class="doc-container">
-        <div class="action-buttons">
-          <button class="btn btn-blue" @click="handleDocUpload">
-            <img src="@/assets/UI/上传白色.svg" alt="上传">
-            <span>上传配置文件</span>
-          </button>
-          <button class="btn btn-blue">
-            <img src="@/assets/UI/下载白色.svg" alt="下载">
-            <span>下载配置文件</span>
-          </button>
-        </div>
-
-        <!-- 文件显示区域 -->
-        <div v-if="uploadedDoc" class="file-display">
-          <img src="@/assets/UI/文件蓝色.svg" class="file-icon">
-          <span class="file-name">{{ uploadedDoc.name }}</span>
-          <img src="@/assets/UI/确认蓝色.svg" class="check-icon">
-        </div>
-
-        <!-- Markdown预览容器 -->
-        <div class="markdown-preview" v-if="markdownContent">
-          <div class="markdown-content" v-html="markdownContent"></div>
-        </div>
+    <div class="doc-container">
+      <div class="action-buttons">
+        <button class="btn btn-blue" @click="handleDocUpload">
+          <img src="@/assets/UI/上传白色.svg" alt="上传">
+          <span>{{ documentContent ? '重新上传' : '上传' }}配置文件</span>
+        </button>
+        <button 
+          class="btn btn-blue" 
+          @click="handleDocDownload"
+          :disabled="!documentContent"
+        >
+          <img src="@/assets/UI/下载白色.svg" alt="下载">
+          <span>下载配置文件</span>
+        </button>
       </div>
-    </template>
+
+
+      <!-- 文件显示区域 -->
+      <div v-if="uploadedDoc" class="file-display">
+        <img src="@/assets/UI/文件蓝色.svg" class="file-icon">
+        <span class="file-name">{{ uploadedDoc.name }}</span>
+        <img src="@/assets/UI/确认蓝色.svg" class="check-icon">
+      </div>
+
+      <!-- Markdown预览容器 -->
+      <div class="markdown-preview" v-if="documentContent">
+        <div class="markdown-content" v-html="parsedContent"></div>
+      </div>
+    </div>
+  </template>
 
     <!-- 删除项目页面 -->
     <template v-if="currentTab === '删除项目'">
@@ -169,103 +198,465 @@
 </template>
 
 <script>
-import { ref } from 'vue'
-//import { useStore } from 'vuex'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { marked } from 'marked'
+import projectService from '@/services/projectService'
+import ThreeScene from '@/components/ThreeScene.vue'
+
+const MAX_FRAMES = 200 // 最大帧数
+const FRAME_INTERVAL = 0.01 // 帧间隔（秒）
 
 export default {
   name: 'ExperimentSettings',
+
+  components: {
+    ThreeScene
+  },
   
   setup() {
+    const route = useRoute()
     const currentTab = ref('基本')
     const settingTabs = ['基本', '高级', '动捕设置', '使用文档', '删除项目']
-    const uploadedFile = ref(null)
     const uploadedDoc = ref(null)
-    const markdownContent = ref('')
-    
-    // 修正: xyzRecords 声明提前
-    const xyzRecords = ref([
-      { id: 1, time: '0.00', x: '0.00', y: '0.00', z: '0.00' },
-      { id: 2, time: '0.01', x: '0.01', y: '0.01', z: '0.01' }
-    ])
+    const documentContent = ref(null)
+    const xyzRecords = ref([]);  // 保留原有的xyz数据
+    const router = useRouter(); // 获取 router 实例
 
+    // 动捕相关状态
+    const isPlaying = ref(false)
+    const isPaused = ref(false)
+    const records = ref([])
+    const ws = ref(null)
+    let startTime = null
+    let frameCount = 0
+    let animationFrameId = null
+    let lastPosition = [0, 0, 0]
+    let lastMarkers = {
+      Marker1: [0, 0, 0],
+      Marker2: [0, 0, 0],
+      Marker3: [0, 0, 0],
+      Marker4: [0, 0, 0]
+    }
+    
+    // 获取项目ID
+    const projectId = route.query.projectId || localStorage.getItem('currentProjectId');
+    
+    // 表单数据
     const formData = ref({
       title: '',
       creator: '',
       password: '',
       contact: '',
       description: ''
+    });
+
+        // 计算要显示的记录
+        const displayRecords = computed(() => {
+      return records.value.slice().sort((a, b) => b.frameIndex - a.frameIndex)
     })
 
-    const switchTab = (tab) => {
-      currentTab.value = tab
+    // 格式化时间
+    const formatTime = (frameIndex) => {
+      const totalSeconds = frameIndex * FRAME_INTERVAL
+      const minutes = Math.floor(totalSeconds / 60)
+      const seconds = Math.floor(totalSeconds % 60)
+      const milliseconds = Math.floor((totalSeconds * 100) % 100)
+      return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(milliseconds).padStart(2, '0')}`
     }
 
-    const handleUpload = () => {
-      const input = document.createElement('input')
-      input.type = 'file'
-      input.accept = '.json'
-      input.onchange = (e) => {
-        const file = e.target.files[0]
-        if (file) {
-          uploadedFile.value = file
+    // 更新动画帧
+    const updateFrame = () => {
+      if (!isPlaying.value || isPaused.value || !startTime) {
+        return
+      }
+
+      const currentTime = Date.now()
+      const elapsedTime = currentTime - startTime
+      const expectedFrames = Math.floor(elapsedTime / 10)
+
+      if (expectedFrames > frameCount) {
+        const newRecord = {
+          frameIndex: frameCount,
+          time: formatTime(frameCount),
+          x: lastPosition[0].toFixed(2),
+          y: lastPosition[1].toFixed(2),
+          z: lastPosition[2].toFixed(2)
+        }
+
+        records.value.unshift(newRecord)
+        if (records.value.length > MAX_FRAMES) {
+          records.value = records.value.slice(0, MAX_FRAMES)
+        }
+
+        window.dispatchEvent(new CustomEvent('coordinate-update', {
+          detail: {
+            coordinates: {
+              position: lastPosition,
+              markers: lastMarkers
+            },
+            time: newRecord.time
+          }
+        }))
+
+        frameCount++
+      }
+
+      animationFrameId = requestAnimationFrame(updateFrame)
+    }
+
+    // 动捕控制函数
+    const startAnimation = () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId)
+      }
+      startTime = Date.now()
+      frameCount = 0
+      animationFrameId = requestAnimationFrame(updateFrame)
+    }
+
+    const stopAnimation = () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId)
+        animationFrameId = null
+      }
+    }
+
+    const handleMocapData = (message) => {
+  // 更新最新的坐标
+  lastPosition = message.data.position;
+  
+  // 处理markers数据，兼容新旧两种格式
+  if (message.data.markers) {
+    lastMarkers = message.data.markers;
+  } else {
+    // 兼容旧格式
+    lastMarkers = {
+      Marker1: message.data.Marker1 || [0, 0, 0],
+      Marker2: message.data.Marker2 || [0, 0, 0],
+      Marker3: message.data.Marker3 || [0, 0, 0],
+      Marker4: message.data.Marker4 || [0, 0, 0]
+    };
+  }
+};
+
+const connectWebSocket = () => {
+  if (ws.value) {
+    ws.value.close();
+  }
+
+  // 明确指定这是mocap测试连接
+  ws.value = new WebSocket(`ws://${window.location.hostname}:3000/mocap?type=test`);
+  
+  ws.value.onopen = () => {
+    console.log('Connected to mocap WebSocket');
+  };
+
+  ws.value.onmessage = (event) => {
+    try {
+      const message = JSON.parse(event.data);
+      
+      switch(message.type) {
+        case 'MOCAP_DATA':
+          if (isPlaying.value && !isPaused.value) {
+            handleMocapData(message)
+          }
+          break;
+
+        case 'ERROR':
+          console.error('收到错误消息:', message.message)
+          alert(message.message)
+          isPlaying.value = false
+          isPaused.value = false
+          stopAnimation()
+          break;
+      }
+    } catch (error) {
+      console.error('处理WebSocket消息时出错:', error)
+    }
+  };
+
+      ws.value.onerror = (error) => {
+        console.error('WebSocket error occurred:', error)
+        if (isPlaying.value) {
+          alert('未能连接到动捕系统')
+          isPlaying.value = false
+          isPaused.value = false
+          stopAnimation()
         }
       }
-      input.click()
+
+      ws.value.onclose = () => {
+        console.log('WebSocket connection closed')
+        isPlaying.value = false
+        isPaused.value = false
+        stopAnimation()
+      }
     }
 
-    const handleDocUpload = () => {
+    const togglePlayback = () => {
+      if (!ws.value || ws.value.readyState !== WebSocket.OPEN) {
+        connectWebSocket()
+      }
+
+      if (!isPlaying.value) {
+        isPlaying.value = true
+        isPaused.value = false
+        records.value = []
+        lastPosition = [0, 0, 0]
+        startAnimation()
+        ws.value.send(JSON.stringify({ type: 'START' }))
+      } else if (isPaused.value) {
+        isPaused.value = false
+        startTime = Date.now() - (frameCount * 10)
+        animationFrameId = requestAnimationFrame(updateFrame)
+        ws.value.send(JSON.stringify({ type: 'RESUME' }))
+      } else {
+        isPaused.value = true
+        stopAnimation()
+        ws.value.send(JSON.stringify({ type: 'PAUSE' }))
+      }
+    }
+
+    const stop = () => {
+      if (ws.value) {
+        ws.value.send(JSON.stringify({ type: 'STOP' }))
+      }
+      isPlaying.value = false
+      isPaused.value = false
+      stopAnimation()
+      startTime = null
+      frameCount = 0
+      records.value = []
+      lastPosition = [0, 0, 0]
+      lastMarkers = {
+        Marker1: [0, 0, 0],
+        Marker2: [0, 0, 0],
+        Marker3: [0, 0, 0],
+        Marker4: [0, 0, 0]
+      }
+
+      window.dispatchEvent(new CustomEvent('coordinate-update', {
+        detail: {
+          coordinates: {
+            position: [0, 0, 0],
+            markers: {
+              Marker1: [0, 0, 0],
+              Marker2: [0, 0, 0],
+              Marker3: [0, 0, 0],
+              Marker4: [0, 0, 0]
+            }
+          },
+          time: "00:00.00"
+        }
+      }))
+    }
+
+    // 加载项目信息
+    const loadProjectInfo = async () => {
+      if (!projectId) {
+        console.error('未找到项目ID');
+        return;
+      }
+
+      try {
+        const info = await projectService.getProjectInfo(projectId);
+        if (info) {
+          formData.value = {
+            title: info.title || '',
+            creator: info.creator || '',
+            password: info.password || '',
+            contact: info.contact || '',
+            description: info.description || ''
+          };
+        }
+      } catch (error) {
+        console.error('获取项目信息失败:', error);
+      }
+    };
+
+    // 定义获取文档的方法
+    const handleGetDocument = async () => {
+      const projectId = route.query.projectId || localStorage.getItem('currentProjectId')
+      if (projectId) {
+        try {
+          const doc = await projectService.getProjectDocument(projectId)
+          if (doc) {
+            documentContent.value = doc.content
+            uploadedDoc.value = { name: doc.filename }
+          }
+        } catch (error) {
+          console.error('获取文档失败:', error)
+        }
+      }
+    }
+
+    // 文档上传处理
+    const handleDocUpload = async () => {
       const input = document.createElement('input')
       input.type = 'file'
       input.accept = '.md'
-      input.onchange = (e) => {
+      input.onchange = async (e) => {
         const file = e.target.files[0]
         if (file) {
-          uploadedDoc.value = file
-          const reader = new FileReader()
-          reader.onload = (event) => {
-            const markdown = event.target.result
-            markdownContent.value = marked(markdown)
+          const projectId = route.query.projectId || localStorage.getItem('currentProjectId')
+          if (!projectId) {
+            alert('未找到项目ID')
+            return
           }
-          reader.readAsText(file)
+
+          try {
+            console.log('Uploading file:', file)
+            uploadedDoc.value = file
+
+            const reader = new FileReader()
+            reader.onload = async (event) => {
+              try {
+                // 先上传到服务器
+                await projectService.uploadProjectDocument(projectId, file)
+                // 上传成功后更新显示
+                documentContent.value = event.target.result
+              } catch (error) {
+                console.error('文档上传失败:', error)
+                alert('文档上传失败，请重试')
+                // 重置状态
+                uploadedDoc.value = null
+                documentContent.value = null
+              }
+            }
+            reader.readAsText(file)
+          } catch (error) {
+            console.error('文件读取失败:', error)
+            alert('文件读取失败，请重试')
+          }
         }
       }
       input.click()
     }
 
-    const handleDelete = () => {
-      if (confirm('确定要删除该项目吗？此操作不可恢复！')) {
-        // 这里添加删除逻辑
+    // 文档下载处理
+    const handleDocDownload = async () => {
+      try {
+        const projectId = route.query.projectId || localStorage.getItem('currentProjectId')
+        if (!projectId) {
+          alert('未找到项目ID')
+          return
+        }
+
+        await projectService.downloadProjectDocument(projectId)
+      } catch (error) {
+        console.error('下载文档失败:', error)
+        alert('下载失败，请重试')
       }
     }
 
-    const handleSave = () => {
-      // 添加保存逻辑
-      console.log('保存设置')
+    // 基本信息保存
+    const handleSave = async () => {
+      if (!formData.value.title || !formData.value.creator) {
+        alert('请填写必要信息');
+        return;
+      }
+
+      try {
+        await projectService.updateProjectInfo(projectId, formData.value);
+        alert('保存成功');
+      } catch (error) {
+        console.error('保存失败:', error);
+        alert('保存失败，请重试');
+      }
     }
 
+    // 取消修改
     const handleCancel = () => {
-      // 添加取消逻辑
-      console.log('取消设置')
+      loadProjectInfo(); // 重新加载数据，恢复原始状态
     }
+
+    // 删除项目
+    const handleDelete = async () => {
+  if (confirm('确定要删除该项目吗？此操作不可恢复！')) {
+    try {
+      // 确保获取到正确的projectId
+      const projectId = route.query.projectId || localStorage.getItem('currentProjectId');
+      if (!projectId) {
+        alert('未找到项目ID');
+        return;
+      }
+      
+      await projectService.deleteProject(projectId);
+      // 删除成功后跳转到项目列表页面
+      router.push('/project');
+    } catch (error) {
+      console.error('删除项目失败:', error);
+      alert('删除失败，请重试');
+    }
+  }
+};
+
+    // 切换标签页
+    const switchTab = (tab) => {
+  currentTab.value = tab;
+  
+  // 根据不同标签页执行对应功能
+  if (tab === '使用文档') {
+    handleGetDocument();
+  } else if (tab === '动捕设置') {
+    connectWebSocket();
+  } else if (ws.value) {
+    // 如果切换到其他标签页，关闭WebSocket连接
+    ws.value.close();
+    ws.value = null;
+  }
+};
+
+    // Markdown内容解析
+    const parsedContent = computed(() => {
+      return documentContent.value ? marked(documentContent.value) : ''
+    })
+
+// 组件挂载时初始化数据
+onMounted(async () => {
+  await loadProjectInfo();
+  
+  // 根据当前标签页初始化对应功能
+  if (currentTab.value === '使用文档') {
+    await handleGetDocument();
+  } else if (currentTab.value === '动捕设置') {
+    connectWebSocket();
+  }
+});
+
+onUnmounted(() => {
+  // 停止动画
+  stopAnimation();
+  
+  // 关闭WebSocket连接
+  if (ws.value) {
+    ws.value.close();
+    ws.value = null;
+  }
+});
 
     return {
       currentTab,
       settingTabs,
-      formData,
-      uploadedFile,
       uploadedDoc,
-      markdownContent,
-      xyzRecords,
-      switchTab,
-      handleUpload,
+      documentContent,
+      parsedContent,
+      formData,
+      xyzRecords,  // 保留原有的数据
       handleDocUpload,
-      handleDelete,
       handleSave,
-      handleCancel
+      handleCancel,
+      handleDelete,
+      switchTab,
+      handleDocDownload,
+      isPlaying,
+      isPaused,
+      displayRecords,
+      togglePlayback,
+      stop
     }
-}
-
+  }
 }
 </script>
 
@@ -641,5 +1032,144 @@ export default {
     font-size: 0.8vw;
     margin-left: 0vw;
   }
+}
+
+/* 动捕设置相关样式 */
+.mocap-settings {
+  display: flex;
+  flex-direction: column;
+  width: 30vw;
+  margin: -0.5vw -1vw;
+  gap: 1vw;
+}
+
+.containers-row {
+  display: flex;
+  gap: 1vw;
+}
+
+.empty-container {
+  flex: 1;
+  background-color: white;
+  padding: 1vw;
+  border-radius: 0.5vw;
+  aspect-ratio: 1;
+  width: 100%;
+  overflow: hidden;
+}
+
+.table-container {
+  width: 100%;
+  background: white;
+  border-radius: 0.5vw;
+  height: 28vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #00A0E9;
+    border-radius: 3px;
+  }
+}
+
+.xyz-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    position: sticky;
+    top: 0;
+    background: #f5f5f5;
+    padding: 0.8vw;
+    font-size: 0.9vw;
+    color: #333;
+    text-align: center;
+    border-bottom: 2px solid #e0e0e0;
+  }
+
+  td {
+    padding: 0.6vw 0.8vw;
+    font-size: 0.85vw;
+    color: #666;
+    border-bottom: 1px solid #f0f0f0;
+    text-align: center;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  td:first-child {
+    color: #00A0E9;
+    font-weight: 500;
+  }
+}
+
+.control-container {
+  width: 100%;
+  background: rgb(242, 242, 242);
+  border-radius: 0.5vw;
+  padding: 1vw;
+  display: flex;
+  justify-content: center;
+}
+
+.playback-buttons {
+  display: flex;
+  gap: 1vw;
+}
+
+.control-btn {
+  width: 2.5vw;
+  height: 2.5vw;
+  border-radius: 50%;
+  background-color: #00A0E9;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.pause-icon {
+  display: flex;
+  gap: 0.3vw;
+}
+
+.pause-line {
+  width: 0.3vw;
+  height: 1.2vw;
+  background-color: white;
+  border-radius: 0.15vw;
+}
+
+.play-icon {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0.7vw 0 0.7vw 1.2vw;
+  border-color: transparent transparent transparent white;
+  margin-left: 0.2vw;
+}
+
+.stop-icon {
+  width: 1vw;
+  height: 1vw;
+  background-color: white;
+  border-radius: 0.1vw;
 }
 </style>

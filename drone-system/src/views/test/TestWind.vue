@@ -8,7 +8,7 @@
           <img src="@/assets/UI/上传白色.svg" alt="上传" class="button-icon">
           <span>上传配置文件</span>
         </button>
-        <button class="btn btn-blue">
+        <button class="btn btn-blue" @click="handleDownload" :disabled="!uploadedFile">
           <img src="@/assets/UI/下载白色.svg" alt="下载" class="button-icon">
           <span>下载配置文件</span>
         </button>
@@ -45,13 +45,14 @@
         <div class="fan-grid">
           <div 
             v-for="group in 144" 
-            :key="'group-' + group" 
+            :key="group"
             class="fan-group"
           >
             <div 
               v-for="fan in 9" 
-              :key="'fan-' + group + '-' + fan" 
+              :key="fan"
               class="fan"
+              :style="getFanStyle(group - 1, fan - 1)"
             ></div>
           </div>
         </div>
@@ -69,26 +70,34 @@
 
       <!-- 进度条和控制按钮 -->
       <div class="control-panel">
-        <div class="progress-bar">
-          <div class="progress"></div>
-          <div class="progress-handle"></div>
+        <div 
+          class="progress-bar" 
+          @click="handleProgressClick"
+        >
+          <div 
+            class="progress" 
+            :style="{ width: `${playbackProgress}%` }"
+          ></div>
+          <div 
+            class="progress-handle" 
+            :style="{ left: `${playbackProgress}%` }"
+            @mousedown="handleDragStart"
+          ></div>
         </div>
-        <div class="progress-text">1:00 / 4:00</div>
+        <div class="progress-text">{{ currentTime }} / {{ totalTime }}</div>
         <div class="control-buttons">
-          <button class="control-btn terminal-btn">
+          <button class="control-btn terminal-btn" @click="openTerminal">
             <img src="@/assets/UI/终端白色.svg" alt="Record">
           </button>
           <div class="playback-buttons">
-            <button class="control-btn">
-              <div class="pause-icon">
+            <button class="control-btn" @click="togglePlayback">
+              <div v-if="isPaused || !isPlaying" class="play-icon"></div>
+              <div v-else class="pause-icon">
                 <div class="pause-line"></div>
                 <div class="pause-line"></div>
               </div>
             </button>
-            <button class="control-btn">
-              <div class="play-icon"></div>
-            </button>
-            <button class="control-btn">
+            <button class="control-btn" @click="stopPlayback">
               <div class="stop-icon"></div>
             </button>
           </div>
@@ -99,34 +108,92 @@
 </template>
 
 <script>
-import { ref } from 'vue'
-import fileService from '@/services/fileService';
+import { ref, computed, onMounted, onUnmounted } from 'vue';  
+import { useStore } from 'vuex'
+import fileService from '@/services/fileService'
 
 export default {
   name: 'TestWind',
 
   setup() {
+    const store = useStore();
     const uploadedFile = ref(null);
-    const runMode = ref('');  // 'simulate' 或 'real'
+    const runMode = ref('');
+    const isDragging = ref(false);
 
-    const handleUpload = () => {
+    // 计算属性
+    const isPlaying = computed(() => store.state.windTest.isPlaying);
+    const isPaused = computed(() => store.state.windTest.isPaused);
+    const playbackProgress = computed(() => store.getters['windTest/playbackProgress']);
+    const currentTime = computed(() => store.getters['windTest/currentTime']);
+    const totalTime = computed(() => store.getters['windTest/totalTime']);
+    const matrixColors = computed(() => store.getters['windTest/matrixColors']);
+    
+    // 在组件挂载时建立WebSocket连接
+    onMounted(async () => {
+        await store.dispatch('windTest/connectWebSocket');
+    });
+
+// 获取风扇样式
+const getFanStyle = (groupIndex, fanIndex) => {
+  if (!matrixColors.value) {
+    console.log('No matrix colors available');
+    return { backgroundColor: 'rgb(232, 232, 232)' };
+  }
+
+  const rowGroup = Math.floor(groupIndex / 12);
+  const colGroup = groupIndex % 12;
+  const subRow = Math.floor(fanIndex / 3);
+  const subCol = fanIndex % 3;
+  const row = rowGroup * 3 + subRow;
+  const col = colGroup * 3 + subCol;
+  
+  if (row >= 36 || col >= 36) {
+    console.log(`Invalid position: row=${row}, col=${col}`);
+    return { backgroundColor: 'rgb(232, 232, 232)' };
+  }
+  
+  const color = matrixColors.value[row][col];
+  return { backgroundColor: color };
+};
+
+    const handleUpload = async () => {
       const input = document.createElement('input');
       input.type = 'file';
       input.accept = '.csv';
       input.onchange = async (e) => {
         const file = e.target.files[0];
         if (file) {
-          uploadedFile.value = file;
-          
           try {
-            const result = await fileService.uploadTestFile(file);
-            console.log('风洞测试文件上传成功:', result);
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            const result = await fileService.uploadAndProcessWindCSV(formData);
+            if (result.success) {
+              uploadedFile.value = {
+                name: file.name,
+                fullName: result.originalFile,
+                processedFile: result.processedFile
+              };
+              await store.dispatch('windTest/loadPlaybackData', result.processedFile);
+            }
           } catch (error) {
-            console.error('文件上传失败:', error);
+            console.error('上传失败:', error);
+            uploadedFile.value = null;
           }
         }
       };
       input.click();
+    };
+
+    const handleDownload = async () => {
+      if (uploadedFile.value?.fullName) {
+        try {
+          await fileService.downloadTestFile(uploadedFile.value.fullName);
+        } catch (error) {
+          console.error('下载失败:', error);
+        }
+      }
     };
 
     const setRunMode = (mode) => {
@@ -135,13 +202,124 @@ export default {
         return;
       }
       runMode.value = mode;
+
+      // 通知服务器切换模式
+      store.state.windTest.ws?.send(JSON.stringify({
+      type: 'SET_RUN_MODE',
+      mode
+      }));
     };
+
+    const togglePlayback = () => {
+      if (!isPlaying.value) {
+        store.dispatch('windTest/startPlayback');
+      } else if (isPaused.value) {
+        store.dispatch('windTest/resumePlayback');
+      } else {
+        store.dispatch('windTest/pausePlayback');
+      }
+    };
+
+    const stopPlayback = () => {
+      store.dispatch('windTest/stopPlayback');
+    };
+
+   // 修改拖动进度条相关方法
+   const handleProgressClick = (e) => {
+            if (!isPlaying.value) return;
+            
+            const rect = e.target.getBoundingClientRect();
+            const percentage = (e.clientX - rect.left) / rect.width;
+            const frameNumber = Math.floor(store.state.windTest.totalFrames * percentage);
+            store.dispatch('windTest/seekTo', frameNumber);
+        };
+
+        const handleDragStart = () => {  // 移除未使用的参数 e
+            if (!isPlaying.value) return;
+            
+            isDragging.value = true;
+            // 拖动时暂停播放
+            store.dispatch('windTest/pausePlayback');
+            
+            window.addEventListener('mousemove', handleDrag);
+            window.addEventListener('mouseup', handleDragEnd);
+        };
+
+        const handleDrag = (e) => {
+            if (!isDragging.value) return;
+            
+            const progressBar = document.querySelector('.progress-bar');
+            const rect = progressBar.getBoundingClientRect();
+            const percentage = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+            const frameNumber = Math.floor(store.state.windTest.totalFrames * percentage);
+            
+            store.dispatch('windTest/seekTo', frameNumber);
+        };
+
+        const handleDragEnd = () => {
+            if (!isDragging.value) return;
+            
+            isDragging.value = false;
+            // 拖动结束后恢复播放
+            store.dispatch('windTest/resumePlayback');
+            
+            window.removeEventListener('mousemove', handleDrag);
+            window.removeEventListener('mouseup', handleDragEnd);
+        };
+
+
+const openTerminal = () => {
+    try {
+        const terminalWindow = window.open('/terminal.html', '_blank');
+        if (terminalWindow) {
+            store.commit('windTest/SET_TERMINAL_WINDOW', true);
+            
+            // 使用定时器检查终端标签页是否关闭
+            const checkInterval = setInterval(() => {
+                if (terminalWindow.closed) {
+                    clearInterval(checkInterval);
+                    store.commit('windTest/SET_TERMINAL_WINDOW', false);
+                }
+            }, 1000);
+            
+        } else {
+            alert('弹窗被浏览器阻止,请允许弹窗后重试');
+        }
+    } catch (error) {
+        console.error('打开终端窗口失败:', error);
+    }
+};
+
+// 清理窗口引用
+onUnmounted(() => {
+        store.dispatch('windTest/stopPlayback');
+        handleDragEnd();
+        // 清理上传状态
+        uploadedFile.value = null;
+        // 关闭WebSocket连接
+        if (store.state.windTest.ws) {
+            store.state.windTest.ws.close();
+        }
+    });
+
 
     return {
       uploadedFile,
       runMode,
+      isPlaying,
+      isPaused,
+      playbackProgress,
+      currentTime,
+      totalTime,
       handleUpload,
-      setRunMode
+      handleDownload,
+      setRunMode,
+      togglePlayback,
+      stopPlayback,
+      handleProgressClick,
+      handleDragStart,
+      getFanStyle,
+      openTerminal
     };
   }
 };

@@ -13,32 +13,36 @@
 </template>
 
 <script>
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+
 export default {
   name: 'DroneHeader',
   props: {
-    title: {
-      type: String,
-      default: '项目'
-    },
     type: {
       type: String,
       default: 'project'
     }
   },
-  computed: {
-    isTemplateIcon() {
-      // 判断是否是模板相关页面
-      return this.type === 'template-detail' || this.title === '模板'
-    },
-    getIconSource() {
+
+  setup(props) {
+    const store = useStore();
+    
+    const title = computed(() => store.getters['navigation/currentTitle']);
+    
+    const isTemplateIcon = computed(() => {
+      return props.type === 'template-detail' || title.value === '模板'
+    });
+
+    const getIconSource = computed(() => {
       // 如果是实验相关页面，统一使用主页蓝色图标
-      if (this.type === 'experiment') {
-        return require('@/assets/UI/主页蓝色.svg')
+      if (props.type === 'experiment') {
+        return require('@/assets/UI/主页蓝色.svg');
       }
       
       // 如果是模板详情页或模板页面，使用模板蓝色图标
-      if (this.isTemplateIcon) {
-        return require('@/assets/UI/模板蓝色.svg')
+      if (isTemplateIcon.value) {
+        return require('@/assets/UI/模板蓝色.svg');
       }
       
       const iconMap = {
@@ -46,9 +50,15 @@ export default {
         '测试': 'UI/测试蓝色.svg',
         '设置': 'UI/设置蓝色.svg',
         '关于': 'UI/关于蓝色.svg'
-      }
-      return require(`@/assets/${iconMap[this.title] || iconMap['项目']}`)
-    }
+      };
+      return require(`@/assets/${iconMap[title.value] || iconMap['项目']}`);
+    });
+
+    return {
+      title,
+      isTemplateIcon,
+      getIconSource
+    };
   }
 }
 </script>

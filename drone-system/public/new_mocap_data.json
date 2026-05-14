@@ -1,0 +1,6344 @@
+[
+  {
+    "FrameNo": 10000,
+    "TimeStamp": 1741791144787,
+    "nMarkerset": 3,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              0,
+              -200,
+              0
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              0,
+              200,
+              0
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              200,
+              0,
+              0
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -200,
+              0,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Observer",
+        "nMarkers": 3,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              300,
+              -750,
+              -20
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              400,
+              -650,
+              -15
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              500,
+              -550,
+              -10
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "StaticTarget",
+        "nMarkers": 2,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              500,
+              500,
+              500
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              520,
+              520,
+              500
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10001,
+    "TimeStamp": 1741791144797,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              0,
+              -200,
+              0
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              0,
+              200,
+              0
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              200,
+              0,
+              0
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -200,
+              0,
+              0
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10002,
+    "TimeStamp": 1741791144807,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              7.13,
+              -202.56,
+              5.28
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              2.59,
+              197.41,
+              3
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              204.84,
+              -0.29,
+              5.78
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -195.12,
+              -4.86,
+              2.51
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10003,
+    "TimeStamp": 1741791144817,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              27.74,
+              -209.82,
+              20.68
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              10.22,
+              189.7,
+              11.69
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              218.68,
+              -1.16,
+              22.58
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -180.72,
+              -18.96,
+              9.79
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10004,
+    "TimeStamp": 1741791144827,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              60.49,
+              -220.95,
+              45.49
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              22.87,
+              176.77,
+              25.59
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              240.23,
+              -2.61,
+              49.58
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -156.88,
+              -41.57,
+              21.5
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10005,
+    "TimeStamp": 1741791144837,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              103.8,
+              -235.04,
+              78.97
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              40.73,
+              158.43,
+              44.27
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              267.93,
+              -4.79,
+              85.95
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -123.4,
+              -71.81,
+              37.29
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10006,
+    "TimeStamp": 1741791144847,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              155.87,
+              -251.21,
+              120.27
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              64.24,
+              134.55,
+              67.42
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              300.09,
+              -8.13,
+              130.81
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -79.98,
+              -108.53,
+              56.88
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10007,
+    "TimeStamp": 1741791144857,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              214.77,
+              -268.9,
+              168.39
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              93.95,
+              105.27,
+              94.87
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              335.05,
+              -13.33,
+              183.23
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -26.33,
+              -150.29,
+              80.03
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10008,
+    "TimeStamp": 1741791144867,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              278.53,
+              -287.93,
+              222.17
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              130.46,
+              71.16,
+              126.6
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              371.38,
+              -21.52,
+              242.23
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              37.61,
+              -195.26,
+              106.54
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10009,
+    "TimeStamp": 1741791144877,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              345.44,
+              -308.61,
+              280.25
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              174.13,
+              33.24,
+              162.81
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              408.12,
+              -34.08,
+              306.74
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              111.44,
+              -241.3,
+              136.32
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10010,
+    "TimeStamp": 1741791144887,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              414.19,
+              -331.62,
+              341.1
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              224.86,
+              -7.09,
+              203.85
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              444.9,
+              -52.58,
+              375.64
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              194.15,
+              -286.13,
+              169.31
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10011,
+    "TimeStamp": 1741791144897,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              484.12,
+              -357.74,
+              403.09
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              281.97,
+              -48.3,
+              250.18
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              482.1,
+              -78.45,
+              447.76
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              283.98,
+              -327.59,
+              205.52
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10012,
+    "TimeStamp": 1741791144907,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              555.17,
+              -387.58,
+              464.58
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              344.12,
+              -89.06,
+              302.29
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              520.8,
+              -112.75,
+              521.88
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              378.49,
+              -363.89,
+              244.98
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10013,
+    "TimeStamp": 1741791144917,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              627.75,
+              -421.23,
+              524.01
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              409.55,
+              -128.55,
+              360.54
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              562.6,
+              -155.8,
+              596.83
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              474.7,
+              -393.98,
+              287.73
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10014,
+    "TimeStamp": 1741791144927,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              702.36,
+              -458.07,
+              580.09
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              476.38,
+              -166.68,
+              425.07
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              609.36,
+              -207.05,
+              671.42
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              569.38,
+              -417.7,
+              333.74
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10015,
+    "TimeStamp": 1741791144937,
+    "nMarkerset": 2,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              779.14,
+              -496.79,
+              631.89
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              543.1,
+              -204.01,
+              495.64
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              662.76,
+              -264.94,
+              744.58
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              659.48,
+              -435.87,
+              382.95
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Observer",
+        "nMarkers": 3,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1178.8894986604053,
+              -1000.3268600833851,
+              611.89
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1278.8894986604053,
+              -900.3268600833851,
+              616.89
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1378.8894986604053,
+              -800.3268600833851,
+              621.89
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10016,
+    "TimeStamp": 1741791144947,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              857.58,
+              -535.74,
+              678.96
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              608.84,
+              -241.49,
+              571.53
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              723.91,
+              -327.08,
+              815.31
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              742.51,
+              -450.15,
+              435.17
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10017,
+    "TimeStamp": 1741791144957,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              936.36,
+              -573.32,
+              721.35
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              673.56,
+              -279.96,
+              651.5
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              793.06,
+              -390.54,
+              882.78
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              816.86,
+              -462.74,
+              490.07
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10018,
+    "TimeStamp": 1741791144967,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1013.5,
+              -608.48,
+              759.64
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              737.85,
+              -319.77,
+              733.83
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              869.43,
+              -452.25,
+              946.28
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              881.93,
+              -476,
+              547.18
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10019,
+    "TimeStamp": 1741791144977,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1086.82,
+              -640.98,
+              794.76
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              802.55,
+              -360.41,
+              816.39
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              951.27,
+              -509.43,
+              1005.28
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              938.1,
+              -491.97,
+              605.87
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10020,
+    "TimeStamp": 1741791144987,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1154.39,
+              -671.4,
+              827.91
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              868.18,
+              -400.6,
+              896.83
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1036.07,
+              -559.94,
+              1059.38
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              986.5,
+              -512.05,
+              665.36
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10021,
+    "TimeStamp": 1741791144997,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1214.95,
+              -700.81,
+              860.35
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              934.65,
+              -438.51,
+              972.72
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1120.94,
+              -602.54,
+              1108.34
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              1028.67,
+              -536.79,
+              724.72
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10022,
+    "TimeStamp": 1741791145007,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1268.07,
+              -730.35,
+              893.16
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1001.02,
+              -472.3,
+              1041.8
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1202.94,
+              -636.84,
+              1152.03
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              1066.15,
+              -565.81,
+              782.93
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10023,
+    "TimeStamp": 1741791145017,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1313.99,
+              -760.75,
+              927.14
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1065.67,
+              -500.51,
+              1102.11
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1279.48,
+              -663.27,
+              1190.4
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              1100.18,
+              -597.99,
+              838.85
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10024,
+    "TimeStamp": 1741791145027,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1353.27,
+              -792.03,
+              962.59
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1126.67,
+              -522.37,
+              1152.16
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1348.46,
+              -682.77,
+              1223.44
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              1131.48,
+              -631.63,
+              891.32
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10025,
+    "TimeStamp": 1741791145037,
+    "nMarkerset": 2,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1386.38,
+              -823.5,
+              999.35
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1182.17,
+              -537.87,
+              1190.97
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1408.41,
+              -696.6,
+              1251.17
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              1160.14,
+              -664.77,
+              939.16
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "StaticTarget",
+        "nMarkers": 2,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              500,
+              500,
+              500
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              520,
+              520,
+              500
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10026,
+    "TimeStamp": 1741791145047,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1413.32,
+              -853.85,
+              1036.72
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1230.8,
+              -547.58,
+              1218.05
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1458.43,
+              -706.01,
+              1273.59
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              1185.7,
+              -695.42,
+              981.18
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10027,
+    "TimeStamp": 1741791145057,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1433.47,
+              -881.5,
+              1073.57
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1271.83,
+              -552.35,
+              1233.36
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1498.07,
+              -712.13,
+              1290.69
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              1207.23,
+              -721.72,
+              1016.25
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10028,
+    "TimeStamp": 1741791145067,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1445.51,
+              -904.83,
+              1108.44
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1305.19,
+              -553.08,
+              1237.21
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1527.14,
+              -715.83,
+              1302.38
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              1223.55,
+              -742.08,
+              1043.26
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10029,
+    "TimeStamp": 1741791145077,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1447.65,
+              -922.36,
+              1139.59
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1331.29,
+              -550.52,
+              1230.13
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1545.53,
+              -717.72,
+              1308.54
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              1233.41,
+              -755.16,
+              1061.19
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10030,
+    "TimeStamp": 1741791145087,
+    "nMarkerset": 2,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1437.81,
+              -932.77,
+              1165.2
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1350.84,
+              -545.26,
+              1212.81
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1553,
+              -718.14,
+              1308.96
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              1235.66,
+              -759.89,
+              1069.06
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Observer",
+        "nMarkers": 3,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1751.9220008059867,
+              -1383.2703751699778,
+              1145.2
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1851.9220008059867,
+              -1283.2703751699778,
+              1150.2
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1951.9220008059867,
+              -1183.2703751699778,
+              1155.2
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10031,
+    "TimeStamp": 1741791145097,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1408.96,
+              -928.74,
+              1187.69
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1355.35,
+              -532.36,
+              1190.33
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1542.66,
+              -709.62,
+              1306.49
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              1221.66,
+              -751.47,
+              1071.53
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10032,
+    "TimeStamp": 1741791145107,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1356.79,
+              -904.51,
+              1210.37
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1336.71,
+              -507.31,
+              1167.65
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1508.98,
+              -685.32,
+              1304.16
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              1184.53,
+              -726.5,
+              1073.86
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10033,
+    "TimeStamp": 1741791145117,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1283.28,
+              -861.31,
+              1232.72
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1296.27,
+              -471.2,
+              1145.3
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1453.62,
+              -646.4,
+              1301.97
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              1125.93,
+              -686.12,
+              1076.05
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10034,
+    "TimeStamp": 1741791145127,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1190.4,
+              -800.47,
+              1254.24
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1235.35,
+              -425.02,
+              1123.78
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1378.25,
+              -594.01,
+              1299.92
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              1047.5,
+              -631.49,
+              1078.1
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10035,
+    "TimeStamp": 1741791145137,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1080.14,
+              -723.4,
+              1274.48
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1155.31,
+              -369.67,
+              1103.53
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1284.53,
+              -529.31,
+              1298
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              950.92,
+              -563.76,
+              1080.01
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10036,
+    "TimeStamp": 1741791145147,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              954.46,
+              -631.6,
+              1293.09
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1057.49,
+              -305.94,
+              1084.93
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1174.11,
+              -453.44,
+              1296.22
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              837.84,
+              -484.11,
+              1081.79
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10037,
+    "TimeStamp": 1741791145157,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              815.29,
+              -526.64,
+              1309.75
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              943.29,
+              -234.59,
+              1068.26
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1048.66,
+              -367.56,
+              1294.57
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              709.93,
+              -393.67,
+              1083.44
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10038,
+    "TimeStamp": 1741791145167,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              664.53,
+              -410.14,
+              1324.27
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              814.13,
+              -156.3,
+              1053.74
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              909.82,
+              -272.81,
+              1293.05
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              568.84,
+              -293.63,
+              1084.96
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10039,
+    "TimeStamp": 1741791145177,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              504.04,
+              -283.74,
+              1336.5
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              671.47,
+              -71.74,
+              1041.51
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              759.24,
+              -170.35,
+              1291.66
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              416.27,
+              -185.14,
+              1086.36
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10040,
+    "TimeStamp": 1741791145187,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              335.61,
+              -149.11,
+              1346.39
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              516.83,
+              18.45,
+              1031.62
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              598.58,
+              -61.31,
+              1290.38
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              253.86,
+              -69.36,
+              1087.63
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10041,
+    "TimeStamp": 1741791145197,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              160.99,
+              -7.92,
+              1353.95
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              351.78,
+              113.62,
+              1024.07
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              429.46,
+              53.15,
+              1289.22
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              83.31,
+              52.55,
+              1088.79
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10042,
+    "TimeStamp": 1741791145207,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -18.13,
+              138.2,
+              1359.26
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              177.96,
+              213.11,
+              1018.76
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              253.55,
+              171.9,
+              1288.18
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -93.73,
+              179.41,
+              1089.84
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10043,
+    "TimeStamp": 1741791145217,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -200.11,
+              287.62,
+              1362.44
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -2.97,
+              316.22,
+              1015.57
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              72.49,
+              293.78,
+              1287.24
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -275.56,
+              310.06,
+              1090.78
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10044,
+    "TimeStamp": 1741791145227,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -383.36,
+              438.78,
+              1363.69
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -189.26,
+              422.21,
+              1014.33
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              -112.1,
+              417.67,
+              1286.4
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -460.52,
+              443.32,
+              1091.61
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10045,
+    "TimeStamp": 1741791145237,
+    "nMarkerset": 2,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -566.34,
+              590.15,
+              1363.2
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -379.14,
+              530.31,
+              1014.81
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              -298.55,
+              542.42,
+              1285.66
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -646.93,
+              578.04,
+              1092.35
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Observer",
+        "nMarkers": 3,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -364.09301176650973,
+              100.68978997153896,
+              1343.2
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -264.09301176650973,
+              200.68978997153897,
+              1348.2
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              -164.09301176650973,
+              300.68978997153897,
+              1353.2
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10046,
+    "TimeStamp": 1741791145247,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -747.56,
+              740.26,
+              1361.22
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -570.78,
+              639.67,
+              1016.79
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              -485.24,
+              666.89,
+              1285.01
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -833.1,
+              713.03,
+              1093
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10047,
+    "TimeStamp": 1741791145257,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -925.54,
+              887.7,
+              1358
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -762.34,
+              749.38,
+              1020.02
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              -670.52,
+              789.94,
+              1284.45
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -1017.36,
+              847.13,
+              1093.57
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10048,
+    "TimeStamp": 1741791145267,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -1098.85,
+              1031.13,
+              1353.79
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -951.93,
+              858.49,
+              1024.23
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              -852.75,
+              910.45,
+              1283.96
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -1198.03,
+              979.16,
+              1094.05
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10049,
+    "TimeStamp": 1741791145277,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -1266.05,
+              1169.25,
+              1348.85
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -1137.67,
+              965.96,
+              1029.17
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              -1030.3,
+              1027.28,
+              1283.55
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -1373.43,
+              1107.94,
+              1094.46
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10050,
+    "TimeStamp": 1741791145287,
+    "nMarkerset": 2,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -1425.73,
+              1300.85,
+              1343.42
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -1317.66,
+              1070.74,
+              1034.6
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              -1201.51,
+              1139.29,
+              1283.21
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -1541.88,
+              1232.29,
+              1094.81
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "StaticTarget",
+        "nMarkers": 2,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              500,
+              500,
+              500
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              520,
+              520,
+              500
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10051,
+    "TimeStamp": 1741791145297,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -1576.46,
+              1424.73,
+              1337.74
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -1490,
+              1171.67,
+              1040.28
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              -1364.75,
+              1245.36,
+              1282.93
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -1701.72,
+              1351.04,
+              1095.09
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10052,
+    "TimeStamp": 1741791145307,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -1716.82,
+              1539.77,
+              1332.03
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -1652.8,
+              1267.59,
+              1045.99
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              -1518.37,
+              1344.36,
+              1282.7
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -1851.25,
+              1463,
+              1095.31
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10053,
+    "TimeStamp": 1741791145317,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -1845.37,
+              1644.86,
+              1326.49
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -1804.17,
+              1357.29,
+              1051.53
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              -1660.73,
+              1435.16,
+              1282.53
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -1988.81,
+              1566.99,
+              1095.49
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10054,
+    "TimeStamp": 1741791145327,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -1960.66,
+              1738.95,
+              1321.29
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -1942.25,
+              1439.51,
+              1056.73
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              -1790.18,
+              1516.63,
+              1282.4
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -2112.73,
+              1661.83,
+              1095.62
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10055,
+    "TimeStamp": 1741791145337,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -2061.21,
+              1821,
+              1316.6
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -2065.2,
+              1512.99,
+              1061.42
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              -1905.08,
+              1587.66,
+              1282.3
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -2221.32,
+              1746.33,
+              1095.72
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10056,
+    "TimeStamp": 1741791145347,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -2145.54,
+              1889.97,
+              1312.55
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -2171.16,
+              1576.45,
+              1065.47
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              -2003.77,
+              1647.11,
+              1282.24
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -2312.93,
+              1819.31,
+              1095.78
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10057,
+    "TimeStamp": 1741791145357,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -2212.16,
+              1944.85,
+              1309.25
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -2258.34,
+              1628.58,
+              1068.76
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              -2084.61,
+              1693.86,
+              1282.2
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -2385.89,
+              1879.58,
+              1095.82
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10058,
+    "TimeStamp": 1741791145367,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -2259.53,
+              1984.64,
+              1306.82
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -2324.93,
+              1668.09,
+              1071.2
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              -2145.93,
+              1726.79,
+              1282.18
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -2438.53,
+              1925.95,
+              1095.84
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10059,
+    "TimeStamp": 1741791145377,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -2286.13,
+              2008.33,
+              1305.32
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -2369.14,
+              1693.69,
+              1072.7
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              -2186.08,
+              1744.78,
+              1282.17
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -2469.19,
+              1957.23,
+              1095.84
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10060,
+    "TimeStamp": 1741791145387,
+    "nMarkerset": 2,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -2290.41,
+              2014.88,
+              1304.81
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -2389.2,
+              1704.07,
+              1073.21
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              -2203.41,
+              1746.71,
+              1282.17
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -2476.2,
+              1972.24,
+              1095.84
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Observer",
+        "nMarkers": 3,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -2018.3515498198924,
+              1466.871485667482,
+              1284.81
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -1918.3515498198924,
+              1566.871485667482,
+              1289.81
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              -1818.3515498198924,
+              1666.871485667482,
+              1294.81
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10061,
+    "TimeStamp": 1741791145397,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -2248.99,
+              2011.82,
+              1306.18
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -2359.65,
+              1707.13,
+              1071.84
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              -2173.48,
+              1740.31,
+              1282.17
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -2435.17,
+              1978.64,
+              1095.85
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10062,
+    "TimeStamp": 1741791145407,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -2144.43,
+              2007.57,
+              1310.1
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -2261.1,
+              1711.38,
+              1067.91
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              -2077.83,
+              1734.11,
+              1282.14
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -2327.7,
+              1984.84,
+              1095.87
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10063,
+    "TimeStamp": 1741791145417,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -1984.14,
+              2002.36,
+              1316.21
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -2100.81,
+              1716.59,
+              1061.8
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              -1923.75,
+              1728.16,
+              1282.07
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -2161.19,
+              1990.79,
+              1095.94
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10064,
+    "TimeStamp": 1741791145427,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -1775.59,
+              1996.32,
+              1324.01
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -1886,
+              1722.63,
+              1054.01
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              -1718.54,
+              1722.5,
+              1281.94
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -1943.05,
+              1996.45,
+              1096.07
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10065,
+    "TimeStamp": 1741791145437,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -1526.2,
+              1989.5,
+              1332.91
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -1623.93,
+              1729.45,
+              1045.11
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              -1469.45,
+              1717.17,
+              1281.73
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -1680.68,
+              2001.77,
+              1096.29
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10066,
+    "TimeStamp": 1741791145447,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -1243.4,
+              1981.91,
+              1342.21
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -1321.85,
+              1737.03,
+              1035.81
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              -1183.77,
+              1712.2,
+              1281.4
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -1381.49,
+              2006.75,
+              1096.61
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10067,
+    "TimeStamp": 1741791145457,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -934.51,
+              1973.57,
+              1351.15
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -987.14,
+              1745.38,
+              1026.87
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              -868.75,
+              1707.59,
+              1280.95
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -1052.9,
+              2011.36,
+              1097.07
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10068,
+    "TimeStamp": 1741791145467,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -606.74,
+              1964.47,
+              1358.92
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -627.25,
+              1754.47,
+              1019.1
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              -531.68,
+              1703.34,
+              1280.34
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -702.32,
+              2015.61,
+              1097.67
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10069,
+    "TimeStamp": 1741791145477,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              -267.15,
+              1954.64,
+              1364.7
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -249.82,
+              1764.31,
+              1013.32
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              -179.8,
+              1699.45,
+              1279.57
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -337.18,
+              2019.49,
+              1098.45
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10070,
+    "TimeStamp": 1741791145487,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              77.38,
+              1944.11,
+              1367.72
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              137.35,
+              1774.84,
+              1010.3
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              179.62,
+              1695.91,
+              1278.59
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              35.1,
+              2023.04,
+              1099.42
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10071,
+    "TimeStamp": 1741791145497,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              420.15,
+              1932.94,
+              1367.3
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              526.28,
+              1786.01,
+              1010.72
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              539.32,
+              1692.69,
+              1277.4
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              407.11,
+              2026.26,
+              1100.61
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10072,
+    "TimeStamp": 1741791145507,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              754.61,
+              1921.19,
+              1362.92
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              908.83,
+              1797.76,
+              1015.1
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              892.02,
+              1689.76,
+              1275.97
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              771.43,
+              2029.19,
+              1102.05
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10073,
+    "TimeStamp": 1741791145517,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1074.36,
+              1908.97,
+              1354.27
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1276.74,
+              1809.98,
+              1023.75
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1230.47,
+              1687.09,
+              1274.27
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              1120.63,
+              2031.85,
+              1103.75
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10074,
+    "TimeStamp": 1741791145527,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1373.03,
+              1896.4,
+              1341.26
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1621.67,
+              1822.55,
+              1036.75
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1547.4,
+              1684.65,
+              1272.27
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              1447.3,
+              2034.3,
+              1105.74
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10075,
+    "TimeStamp": 1741791145537,
+    "nMarkerset": 3,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1644.29,
+              1883.62,
+              1324.09
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1935.29,
+              1835.32,
+              1053.93
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1835.55,
+              1682.41,
+              1269.96
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              1744.03,
+              2036.54,
+              1108.06
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Observer",
+        "nMarkers": 3,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              2038.0899976774738,
+              1366.2882341082486,
+              1304.09
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              2138.089997677474,
+              1466.2882341082486,
+              1309.09
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              2238.089997677474,
+              1566.2882341082486,
+              1314.09
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "StaticTarget",
+        "nMarkers": 2,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              500,
+              500,
+              500
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              520,
+              520,
+              500
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10076,
+    "TimeStamp": 1741791145547,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1881.69,
+              1870.84,
+              1303.17
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              2209.35,
+              1848.11,
+              1074.85
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              2087.65,
+              1680.32,
+              1267.3
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              2003.39,
+              2038.63,
+              1110.72
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10077,
+    "TimeStamp": 1741791145557,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              2078.67,
+              1858.26,
+              1279.15
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              2435.73,
+              1860.69,
+              1098.86
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              2296.43,
+              1678.37,
+              1264.27
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              2217.97,
+              2040.57,
+              1113.75
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10078,
+    "TimeStamp": 1741791145567,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              2228.43,
+              1846.16,
+              1252.87
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              2606.55,
+              1872.79,
+              1125.14
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              2454.64,
+              1676.55,
+              1260.83
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              2380.34,
+              2042.4,
+              1117.19
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10079,
+    "TimeStamp": 1741791145577,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              2323.91,
+              1834.82,
+              1225.25
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              2714.18,
+              1884.13,
+              1152.77
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              2555,
+              1674.84,
+              1256.96
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              2483.1,
+              2044.11,
+              1121.06
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10080,
+    "TimeStamp": 1741791145587,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              2357.78,
+              1824.54,
+              1197.24
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              2751.28,
+              1894.41,
+              1180.78
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              2590.26,
+              1673.26,
+              1252.63
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              2518.8,
+              2045.69,
+              1125.39
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10081,
+    "TimeStamp": 1741791145597,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              2349.82,
+              1788.71,
+              1169.71
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              2737.19,
+              1880.68,
+              1208.31
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              2582.24,
+              1647.24,
+              1246.96
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              2504.77,
+              2022.15,
+              1131.05
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10082,
+    "TimeStamp": 1741791145607,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              2326.09,
+              1705.2,
+              1143.11
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              2697.37,
+              1822.36,
+              1234.91
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              2558.58,
+              1575.95,
+              1239.25
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              2464.88,
+              1951.61,
+              1138.77
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10083,
+    "TimeStamp": 1741791145617,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              2288.14,
+              1581.17,
+              1117.83
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              2634.2,
+              1722.52,
+              1260.18
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              2520.64,
+              1465.28,
+              1229.68
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              2401.7,
+              1838.42,
+              1148.33
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10084,
+    "TimeStamp": 1741791145627,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              2236.99,
+              1423.7,
+              1094.34
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              2550.57,
+              1584.37,
+              1283.68
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              2469.59,
+              1321.32,
+              1218.48
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              2317.96,
+              1686.74,
+              1159.53
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10085,
+    "TimeStamp": 1741791145637,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              2173.08,
+              1239.44,
+              1073.09
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              2449.95,
+              1411.48,
+              1304.93
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              2406.3,
+              1150.16,
+              1205.89
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              2216.72,
+              1500.76,
+              1172.12
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10086,
+    "TimeStamp": 1741791145647,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              2096.46,
+              1034.36,
+              1054.55
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              2336.21,
+              1208.14,
+              1323.47
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              2331.35,
+              957.66,
+              1192.19
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              2101.32,
+              1284.84,
+              1185.82
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10087,
+    "TimeStamp": 1741791145657,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              2007.05,
+              813.57,
+              1039.09
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              2213.36,
+              979.51,
+              1338.92
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              2245.08,
+              749.29,
+              1177.69
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              1975.33,
+              1043.78,
+              1200.32
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10088,
+    "TimeStamp": 1741791145667,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1905.01,
+              581.34,
+              1026.99
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              2085.13,
+              731.54,
+              1351.02
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              2147.79,
+              530,
+              1162.73
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              1842.36,
+              782.89,
+              1215.29
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10089,
+    "TimeStamp": 1741791145677,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1791.11,
+              341.33,
+              1018.37
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1954.69,
+              470.86,
+              1359.64
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              2039.92,
+              304.14,
+              1147.65
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              1705.88,
+              508.05,
+              1230.37
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10090,
+    "TimeStamp": 1741791145687,
+    "nMarkerset": 2,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1666.9,
+              96.91,
+              1013.19
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1824.41,
+              204.34,
+              1364.83
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1922.32,
+              75.6,
+              1132.79
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              1568.99,
+              225.65,
+              1245.22
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Observer",
+        "nMarkers": 3,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              2008.1118485241757,
+              -357.53348690576615,
+              993.19
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              2108.111848524176,
+              -257.53348690576615,
+              998.19
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              2208.111848524176,
+              -157.53348690576615,
+              1003.19
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10091,
+    "TimeStamp": 1741791145697,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1534.69,
+              -148.44,
+              1011.23
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1695.87,
+              -61.26,
+              1366.79
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1796.38,
+              -152.09,
+              1118.5
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              1434.18,
+              -57.62,
+              1259.52
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10092,
+    "TimeStamp": 1741791145707,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1397.43,
+              -390.76,
+              1012.13
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1570.05,
+              -319.64,
+              1365.89
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1664.14,
+              -375.42,
+              1105.05
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              1303.35,
+              -334.98,
+              1272.97
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10093,
+    "TimeStamp": 1741791145717,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1258.38,
+              -625.46,
+              1015.41
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1447.62,
+              -565.12,
+              1362.61
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1528.23,
+              -590.73,
+              1092.71
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              1177.77,
+              -599.85,
+              1285.31
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10094,
+    "TimeStamp": 1741791145727,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              1120.8,
+              -847.26,
+              1020.49
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1329.22,
+              -792.75,
+              1357.52
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1391.75,
+              -793.98,
+              1081.68
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              1058.26,
+              -846.03,
+              1296.33
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10095,
+    "TimeStamp": 1741791145737,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              987.71,
+              -1050.32,
+              1026.78
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1215.75,
+              -998.11,
+              1351.24
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1258.05,
+              -980.63,
+              1072.12
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              945.4,
+              -1067.8,
+              1305.89
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10096,
+    "TimeStamp": 1741791145747,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              861.78,
+              -1228.42,
+              1033.66
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1108.45,
+              -1177.16,
+              1344.35
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1130.53,
+              -1145.67,
+              1064.14
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              839.7,
+              -1259.91,
+              1313.88
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10097,
+    "TimeStamp": 1741791145757,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              745.35,
+              -1375.16,
+              1040.58
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              1008.9,
+              -1326.05,
+              1337.44
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              1012.45,
+              -1283.72,
+              1057.81
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              741.8,
+              -1417.49,
+              1320.21
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10098,
+    "TimeStamp": 1741791145767,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              640.52,
+              -1484.09,
+              1047.03
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              918.93,
+              -1440.97,
+              1330.99
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              906.9,
+              -1389.18,
+              1053.19
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              652.56,
+              -1535.88,
+              1324.83
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10099,
+    "TimeStamp": 1741791145777,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              549.38,
+              -1548.87,
+              1052.64
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              840.36,
+              -1518.03,
+              1325.38
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              816.68,
+              -1456.43,
+              1050.34
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              573.06,
+              -1610.48,
+              1327.68
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10100,
+    "TimeStamp": 1741791145787,
+    "nMarkerset": 2,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              474.23,
+              -1563.25,
+              1057.14
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              774.8,
+              -1553.21,
+              1320.87
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              744.43,
+              -1480,
+              1049.36
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              504.6,
+              -1636.46,
+              1328.65
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "StaticTarget",
+        "nMarkers": 2,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              500,
+              500,
+              500
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              520,
+              520,
+              500
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10101,
+    "TimeStamp": 1741791145797,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              411.88,
+              -1542.72,
+              1055.85
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              716.36,
+              -1563.58,
+              1314.42
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              686.47,
+              -1475.43,
+              1047.33
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              441.78,
+              -1630.87,
+              1322.94
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10102,
+    "TimeStamp": 1741791145807,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              357.91,
+              -1507.74,
+              1044.98
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              657.6,
+              -1569.01,
+              1302.74
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              637.09,
+              -1462.48,
+              1041.53
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              378.42,
+              -1614.27,
+              1306.19
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10103,
+    "TimeStamp": 1741791145817,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              313.27,
+              -1460.04,
+              1025.88
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              597.28,
+              -1569.15,
+              1285.56
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              595.5,
+              -1442.68,
+              1032.57
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              315.05,
+              -1586.52,
+              1278.86
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10104,
+    "TimeStamp": 1741791145827,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              278.93,
+              -1401.92,
+              1000
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              534.14,
+              -1563.1,
+              1262.46
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              560.53,
+              -1417.9,
+              1021.18
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              252.55,
+              -1547.13,
+              1241.29
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10105,
+    "TimeStamp": 1741791145837,
+    "nMarkerset": 2,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              255.59,
+              -1336.23,
+              968.85
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              467.22,
+              -1549.38,
+              1233.01
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              530.49,
+              -1390.03,
+              1008.05
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              192.33,
+              -1495.57,
+              1193.81
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Observer",
+        "nMarkers": 3,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              467.62042400283303,
+              -1812.4531536002005,
+              948.85
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              567.620424002833,
+              -1712.4531536002005,
+              953.85
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              667.620424002833,
+              -1612.4531536002005,
+              958.85
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10106,
+    "TimeStamp": 1741791145847,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              243.32,
+              -1266.27,
+              933.89
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              396.19,
+              -1526.08,
+              1196.82
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              503.12,
+              -1360.68,
+              993.81
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              136.39,
+              -1431.67,
+              1136.89
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10107,
+    "TimeStamp": 1741791145857,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              241.22,
+              -1195.51,
+              896.41
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              321.63,
+              -1491.11,
+              1153.62
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              475.61,
+              -1330.67,
+              978.83
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              87.24,
+              -1355.95,
+              1071.19
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10108,
+    "TimeStamp": 1741791145867,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              247.38,
+              -1127.17,
+              857.49
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              245.2,
+              -1442.64,
+              1103.4
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              445,
+              -1299.72,
+              963.21
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              47.59,
+              -1270.09,
+              997.68
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10109,
+    "TimeStamp": 1741791145877,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              258.95,
+              -1063.72,
+              817.92
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              169.47,
+              -1379.58,
+              1046.45
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              408.64,
+              -1266.23,
+              946.69
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              19.78,
+              -1177.07,
+              917.67
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10110,
+    "TimeStamp": 1741791145887,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              272.47,
+              -1006.52,
+              778.11
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              97.61,
+              -1301.97,
+              983.38
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              364.91,
+              -1227.4,
+              928.67
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              5.18,
+              -1081.09,
+              832.83
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10111,
+    "TimeStamp": 1741791145897,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              284.49,
+              -955.57,
+              738.17
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              32.81,
+              -1211.17,
+              915.17
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              313.81,
+              -1179.68,
+              908.22
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              3.49,
+              -987.07,
+              745.12
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10112,
+    "TimeStamp": 1741791145907,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              292.11,
+              -909.67,
+              697.88
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -22.32,
+              -1109.8,
+              843.07
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              257.34,
+              -1119.59,
+              884.23
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              12.45,
+              -899.88,
+              656.73
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10113,
+    "TimeStamp": 1741791145917,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              293.53,
+              -866.79,
+              656.84
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -66.25,
+              -1001.24,
+              768.56
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              199.36,
+              -1044.74,
+              855.5
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              27.92,
+              -823.29,
+              569.9
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10114,
+    "TimeStamp": 1741791145927,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              288.17,
+              -824.7,
+              614.55
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -98.69,
+              -889.12,
+              693.18
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              144.99,
+              -954.68,
+              820.95
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              44.5,
+              -759.14,
+              486.78
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10115,
+    "TimeStamp": 1741791145937,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              276.61,
+              -781.53,
+              570.54
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -120.48,
+              -776.7,
+              618.47
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              99.55,
+              -851.37,
+              779.75
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              56.58,
+              -706.86,
+              409.25
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10116,
+    "TimeStamp": 1741791145947,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              260.12,
+              -736.18,
+              524.51
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -133.18,
+              -666.46,
+              545.77
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              67.39,
+              -739.09,
+              731.5
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              59.55,
+              -663.55,
+              338.78
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10117,
+    "TimeStamp": 1741791145957,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              240.23,
+              -688.43,
+              476.44
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -138.59,
+              -560,
+              476.18
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              50.86,
+              -623.68,
+              676.31
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              50.77,
+              -624.75,
+              276.31
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10118,
+    "TimeStamp": 1741791145967,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              218.25,
+              -638.77,
+              426.56
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -138.32,
+              -458.22,
+              410.5
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              49.88,
+              -511.46,
+              614.82
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              30.06,
+              -585.53,
+              222.24
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10119,
+    "TimeStamp": 1741791145977,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              195.12,
+              -588.09,
+              375.44
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -133.55,
+              -361.62,
+              349.24
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              62.03,
+              -408.01,
+              548.23
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -0.46,
+              -541.7,
+              176.45
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10120,
+    "TimeStamp": 1741791145987,
+    "nMarkerset": 2,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              171.35,
+              -537.36,
+              323.87
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -125.09,
+              -270.61,
+              292.66
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              83.29,
+              -317.26,
+              478.14
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -37.03,
+              -490.71,
+              138.38
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Observer",
+        "nMarkers": 3,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              417.69270819995654,
+              -1079.5526979366248,
+              303.87
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              517.6927081999565,
+              -979.5526979366247,
+              308.87
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              617.6927081999565,
+              -879.5526979366247,
+              313.87
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10121,
+    "TimeStamp": 1741791145997,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              147.23,
+              -487.41,
+              272.83
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -113.5,
+              -185.75,
+              240.82
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              108.96,
+              -241.09,
+              406.49
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -75.24,
+              -432.06,
+              107.16
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10122,
+    "TimeStamp": 1741791146007,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              123.04,
+              -438.9,
+              223.41
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -99.35,
+              -107.75,
+              193.71
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              134.75,
+              -179.42,
+              335.35
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -111.06,
+              -367.24,
+              81.77
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10123,
+    "TimeStamp": 1741791146017,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              99.2,
+              -392.43,
+              176.69
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -83.33,
+              -37.41,
+              151.3
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              157.4,
+              -130.72,
+              266.81
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -141.53,
+              -299.12,
+              61.18
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10124,
+    "TimeStamp": 1741791146027,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              76.32,
+              -348.63,
+              133.7
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -66.33,
+              24.52,
+              113.61
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              175.08,
+              -92.77,
+              202.85
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -165.09,
+              -231.34,
+              44.47
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10125,
+    "TimeStamp": 1741791146037,
+    "nMarkerset": 2,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              55.16,
+              -308.33,
+              95.4
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -49.38,
+              77.49,
+              80.75
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              187.31,
+              -63.28,
+              145.26
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -181.53,
+              -167.56,
+              30.89
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "StaticTarget",
+        "nMarkers": 2,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              500,
+              500,
+              500
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              520,
+              520,
+              500
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10126,
+    "TimeStamp": 1741791146047,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              36.51,
+              -272.57,
+              62.61
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -33.55,
+              121.13,
+              52.94
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              194.67,
+              -40.41,
+              95.59
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -191.71,
+              -111.02,
+              19.96
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10127,
+    "TimeStamp": 1741791146057,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              21.11,
+              -242.56,
+              36.06
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -19.86,
+              155.3,
+              30.52
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              198.35,
+              -22.96,
+              55.17
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -197.1,
+              -64.3,
+              11.41
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10128,
+    "TimeStamp": 1741791146067,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              9.6,
+              -219.63,
+              16.39
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -9.23,
+              179.92,
+              13.9
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              199.71,
+              -10.39,
+              25.12
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -199.34,
+              -29.32,
+              5.18
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10129,
+    "TimeStamp": 1741791146077,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              2.44,
+              -205.06,
+              4.19
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              -2.4,
+              194.91,
+              3.56
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              199.99,
+              -2.65,
+              6.43
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -199.95,
+              -7.5,
+              1.32
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10130,
+    "TimeStamp": 1741791146087,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              0,
+              -200,
+              0
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              0,
+              200,
+              0
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              200,
+              0,
+              0
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -200,
+              0,
+              0
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "FrameNo": 10131,
+    "TimeStamp": 1741791146097,
+    "nMarkerset": 1,
+    "MarkerSets": [
+      {
+        "Name": "Drone1",
+        "nMarkers": 4,
+        "Markers": [
+          {
+            "MarkerIndex": 0,
+            "Position": [
+              0,
+              -200,
+              0
+            ]
+          },
+          {
+            "MarkerIndex": 1,
+            "Position": [
+              0,
+              200,
+              0
+            ]
+          },
+          {
+            "MarkerIndex": 2,
+            "Position": [
+              200,
+              0,
+              0
+            ]
+          },
+          {
+            "MarkerIndex": 3,
+            "Position": [
+              -200,
+              0,
+              0
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

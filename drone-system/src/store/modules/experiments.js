@@ -1,14 +1,14 @@
 // src/store/modules/experiments.js
-import experimentService from '@/services/experimentService'
+import HttpClient from '@/services/httpClient'
 
 export default {
   namespaced: true,
-
+  
   state: {
     experiments: [],
     xyzData: [],
     currentTab: '实验记录',
-    selectedFragment: '',
+    selectedFragment: null,
     controlSelectedFragment: 'A',
     playbackProgress: 25,
     isPlaying: false
@@ -19,6 +19,10 @@ export default {
       state.experiments = experiments
     },
     
+    SET_SELECTED_FRAGMENT(state, fragment) {
+      state.selectedFragment = fragment;
+    },
+
     TOGGLE_EXPERIMENT_SELECT(state, experimentId) {
       const experiment = state.experiments.find(e => e.id === experimentId)
       if (experiment) {
@@ -41,29 +45,41 @@ export default {
 
   actions: {
     async fetchExperiments({ commit }, projectId) {
-      const experiments = await experimentService.getExperimentsByProject(projectId)
-      commit('SET_EXPERIMENTS', experiments)
+      try {
+        const response = await HttpClient.get(`/api/projects/${projectId}/experiments`);
+        commit('SET_EXPERIMENTS', response);
+        return response;
+      } catch (error) {
+        console.error('获取实验列表失败:', error);
+        return [];
+      }
     },
 
     async toggleExperimentSelect({ commit }, experimentId) {
-      await experimentService.toggleExperimentSelect(experimentId)
-      commit('TOGGLE_EXPERIMENT_SELECT', experimentId)
+      try {
+        const response = await HttpClient.post(`/api/experiments/${experimentId}/toggle`);
+        if (response.success) {
+          commit('TOGGLE_EXPERIMENT_SELECT', experimentId);
+        }
+        return response;
+      } catch (error) {
+        console.error('切换实验选择状态失败:', error);
+        throw error;
+      }
+    },
+
+    setSelectedFragment({ commit }, fragment) {
+      commit('SET_SELECTED_FRAGMENT', fragment)
     }
   },
 
   getters: {
+    selectedFragment: state => state.selectedFragment,
     filteredExperiments: state => query => {
       if (!query) return state.experiments
       query = query.toLowerCase()
       return state.experiments.filter(exp => 
         exp.name.toLowerCase().includes(query)
-      )
-    },
-    filteredRecords: (state) => (query) => {
-      if (!query) return state.experiments
-      const searchText = query.toLowerCase()
-      return state.experiments.filter(record => 
-        record.name.toLowerCase().includes(searchText)
       )
     }
   }

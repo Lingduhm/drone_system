@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Wind Terminal</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 10px;
+      font-family: monospace;
+      background: white;
+      font-size: 14px;
+    }
+    .frame-data {
+      margin-bottom: 10px;
+    }
+    .frame-header {
+        color: #0066cc;  /* 使用蓝色突出显示 */
+        font-family: monospace;
+        font-size: 14px;
+        padding: 2px 0;
+    }
+    .matrix {
+      white-space: pre;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div id="terminal"></div>
+  <script>
+    const terminal = document.getElementById('terminal');
+    
+    // 监听 localStorage 变化 - 同时处理两种数据
+    window.addEventListener('storage', (event) => {
+      if (event.key === 'terminalData' || event.key === 'fragmentTerminalData' || event.key === 'experimentTerminalData') {
+        const data = JSON.parse(event.newValue);
+        if (data && data.type === 'MATRIX_UPDATE') {
+          displayMatrixData(data);
+        }
+      }
+    });
+
+    // 处理 postMessage 数据
+    window.addEventListener('message', (event) => {
+      const data = event.data;
+      if (data && data.type === 'MATRIX_UPDATE') {
+        displayMatrixData(data);
+      }
+    });
+
+function displayMatrixData(data) {
+    const frameDiv = document.createElement('div');
+    frameDiv.className = 'frame-data';
+    
+    // 添加帧号和坐标信息
+    const header = document.createElement('div');
+    header.className = 'frame-header';
+    
+    // 如果有坐标信息则显示，否则只显示帧号
+    if (data.coordinates) {
+        header.textContent = `Frame ${data.frameIndex} - Coordinates: X: ${data.coordinates.x}, Y: ${data.coordinates.y}, Z: ${data.coordinates.z}`;
+    } else {
+        header.textContent = `Frame ${data.frameIndex}:`;
+    }
+    frameDiv.appendChild(header);
+    
+    // 显示矩阵数据
+    const matrix = document.createElement('pre');
+    matrix.className = 'matrix';
+    const matrixData = JSON.parse(data.matrix);
+    matrix.textContent = matrixData
+        .map(row => row.map(val => String(val).padStart(4)).join(''))
+        .join('\n');
+    frameDiv.appendChild(matrix);
+    
+    terminal.appendChild(frameDiv);
+    
+    // 限制1000帧
+    while (terminal.children.length > 1000) {
+        terminal.removeChild(terminal.firstChild);
+    }
+    
+    // 滚动到底部
+    window.scrollTo(0, document.body.scrollHeight);
+}
+  </script>
+</body>
+</html>

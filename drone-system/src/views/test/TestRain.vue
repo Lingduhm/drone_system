@@ -8,7 +8,7 @@
             <img :src="uploadIcon" alt="上传" class="button-icon">
             <span>上传配置文件</span>
           </button>
-          <button class="btn btn-blue">
+          <button class="btn btn-blue" @click="handleDownload" :disabled="!uploadedFile">
             <img :src="downloadIcon" alt="下载" class="button-icon">
             <span>下载配置文件</span>
           </button>
@@ -55,69 +55,93 @@
   </template>
   
   <script>
-import { ref } from 'vue'
-import fileService from '@/services/fileService';
-
-export default {
- name: 'TestRain',
- 
- setup() {
-   const uploadedFile = ref(null);
-   const currentTime = ref('1:00');
-   const totalTime = ref('4:00');
-   const progressWidth = ref('25%');
-
-   const handleUpload = () => {
-     const input = document.createElement('input');
-     input.type = 'file';
-     input.accept = '.csv';
-     input.onchange = async (e) => {
-       const file = e.target.files[0];
-       if (file) {
-         uploadedFile.value = file;
-         
-         try {
-           const result = await fileService.uploadTestFile(file);
-           console.log('雨雾测试文件上传成功:', result);
-         } catch (error) {
-           console.error('文件上传失败:', error);
-         }
-       }
-     };
-     input.click();
-   };
-
-   const togglePause = () => {
-     console.log('Toggle Pause');
-   };
-
-   const play = () => {
-     console.log('Play');
-   };
-
-   const stop = () => {
-     console.log('Stop');
-   };
-
-   return {
-     uploadedFile,
-     currentTime,
-     totalTime, 
-     progressWidth,
-     handleUpload,
-     togglePause,
-     play,
-     stop,
-     // 图标路径
-     uploadIcon: require('@/assets/UI/上传白色.svg'),
-     downloadIcon: require('@/assets/UI/下载白色.svg'),
-     fileIcon: require('@/assets/UI/文件蓝色.svg'),
-     checkIcon: require('@/assets/UI/确认蓝色.svg'),
-     terminalIcon: require('@/assets/UI/终端白色.svg')
-   };
- }
+  import { ref, onUnmounted } from 'vue'
+  import fileService from '@/services/fileService'
+  
+  export default {
+    name: 'TestRain',
+    
+    setup() {
+      const uploadedFile = ref(null);
+      const currentTime = ref('1:00');
+      const totalTime = ref('4:00');
+      const progressWidth = ref('25%');
+  
+const handleUpload = async () => {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.csv';
+  input.onchange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        const formData = new FormData();
+        formData.append('file', file);
+        
+        const result = await fileService.uploadTestFile(formData);
+        if (result.success) {
+          uploadedFile.value = {
+            name: file.name,
+            fullName: result.filename
+          };
+          console.log('文件上传成功:', result);
+        }
+      } catch (error) {
+        console.error('上传失败:', error);
+        uploadedFile.value = null;
+      }
+    }
+  };
+  input.click();
 };
-</script>
+
+      const handleDownload = async () => {
+        if (uploadedFile.value?.fullName) {
+          try {
+            await fileService.downloadTestFile(uploadedFile.value.fullName);
+          } catch (error) {
+            console.error('下载失败:', error);
+          }
+        }
+      };
+  
+      const togglePause = () => {
+        console.log('Toggle Pause');
+      };
+  
+      const play = () => {
+        console.log('Play');
+      };
+  
+      const stop = () => {
+        console.log('Stop');
+      };
+  
+      // 离开页面时清除上传状态
+      onUnmounted(() => {
+        uploadedFile.value = null;
+      });
+  
+      return {
+        uploadedFile,
+        currentTime,
+        totalTime, 
+        progressWidth,
+        handleUpload,
+        handleDownload,
+        togglePause,
+        play,
+        stop,
+        // 图标路径
+        uploadIcon: require('@/assets/UI/上传白色.svg'),
+        downloadIcon: require('@/assets/UI/下载白色.svg'),
+        fileIcon: require('@/assets/UI/文件蓝色.svg'),
+        checkIcon: require('@/assets/UI/确认蓝色.svg'),
+        terminalIcon: require('@/assets/UI/终端白色.svg')
+      };
+    }
+  };
+  </script>
 
   
   <style lang="scss" scoped>
@@ -170,11 +194,13 @@ export default {
   }
   
   .file-display {
-    background: white;
+    background: transparent;
     border-radius: 0.3vw;
     padding: 0.8vw;
     display: flex;
     align-items: center;
+    border-top: 2px solid rgb(232, 232, 232);    // 添加这行
+    border-bottom: 2px solid rgb(232, 232, 232);  // 添加这行
   
     .file-icon {
       width: 1.2vw;

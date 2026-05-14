@@ -1,0 +1,16 @@
+{
+  "id": "m6lpph7i",
+  "projectId": "m6anm6pt",
+  "title": "高级飞行控制片段",
+  "creator": "Ling_du",
+  "password": "123456789",
+  "contact": "18088888888",
+  "description": "无",
+  "createTime": "2025-02-01T04:47:52.927Z",
+  "windConfigFile": "1739601360006-m6lpph7i-timeline_new1.csv",
+  "processedPWMFile": "fragment-m6lpph7i-1740910804801.json",
+  "templateInfo": {
+    "templateId": "m6eq39u2",
+    "configFileName": "wind_1739810020575.js"
+  }
+}

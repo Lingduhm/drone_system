@@ -1,3 +1,4 @@
+// src/router/index.js
 import { createRouter, createWebHistory } from 'vue-router'
 import BaseLayout from '@/components/layout/BaseLayout.vue'
 import store from '@/store'
@@ -115,28 +116,30 @@ const routes = [
         path: 'fragment/new',  
         name: 'NewFragment',
         component: () => import('@/views/experiment/NewFragment.vue'),
-        // 添加 props 以确保可以获取到 query 参数
+        meta: { 
+          activeMenu: '/experiment/edit'
+        },
         props: (route) => ({ projectId: route.query.projectId })
       },
       {
         path: 'fragment/:id',  
         name: 'FragmentDetail',
-        meta: { title: '片段编辑' },
         component: () => import('@/views/experiment/FragmentDetail.vue'),
-        props: {
-          type: 'fragment-detail'
+        meta: { 
+          title: '片段编辑',
+          layout: 'fragment-detail'
         }
       }
     ],
     beforeEnter: (to, from, next) => {
-      const projectId = to.query.projectId
+      const projectId = to.query.projectId || localStorage.getItem('currentProjectId');
       if (projectId && !store.state.navigation.experimentTitle) {
-        const project = store.getters['projects/getProjectById'](projectId)
+        const project = store.getters['projects/getProjectById'](projectId);
         if (project) {
-          store.commit('navigation/SET_EXPERIMENT_TITLE', project.title)
+          store.commit('navigation/SET_EXPERIMENT_TITLE', project.title);
         }
       }
-      next()
+      next();
     }
   },
   {
@@ -161,7 +164,9 @@ const routes = [
       {
         path: ':id',
         name: 'TemplateDetail',
-        props: true, // 添加这行，确保route.params可以作为props传入
+        props: {
+          type: 'template-detail'
+        },
         component: () => import('@/views/template/TemplateDetail.vue')
       }
     ]
@@ -174,21 +179,18 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  // 修改逻辑：当从实验页面返回到项目页面时，并且不是通过直接导航到项目页面时，不清除实验标题
+  // 当从实验页面返回到项目页面时，清除实验标题
   if (to.path === '/project' && from.path.startsWith('/experiment')) {
-    // 只有在点击"返回项目"按钮时才清除实验标题
-    if (to.params.clearExperimentTitle) {
-      store.commit('navigation/SET_EXPERIMENT_TITLE', null)
-    }
+    store.commit('navigation/SET_EXPERIMENT_TITLE', null);
   }
   
   // 处理实验相关页面的标题
   if (to.path.startsWith('/experiment')) {
-    const projectId = to.query.projectId || from.query.projectId
+    const projectId = to.query.projectId || from.query.projectId;
     if (projectId) {
-      const project = store.getters['projects/getProjectById'](projectId)
+      const project = store.getters['projects/getProjectById'](projectId);
       if (project && !store.state.navigation.experimentTitle) {
-        store.commit('navigation/SET_EXPERIMENT_TITLE', project.title)
+        store.commit('navigation/SET_EXPERIMENT_TITLE', project.title);
       }
     }
   }
@@ -196,23 +198,24 @@ router.beforeEach((to, from, next) => {
   // 处理模板相关页面
   else if (to.path.startsWith('/template')) {
     if (to.name === 'TemplateDetail') {
-      const template = store.getters['templates/getTemplateById'](to.params.id)
+      const template = store.getters['templates/getTemplateById'](to.params.id);
       if (template) {
-        store.commit('navigation/SET_TITLE', template.title)
+        store.commit('navigation/SET_TITLE', template.title);
       }
     } else {
-      store.commit('navigation/SET_TITLE', '模板')
+      store.commit('navigation/SET_TITLE', '模板');
     }
   }
   // 处理测试页面及其子路由
   else if (to.path.startsWith('/test')) {
-    store.commit('navigation/SET_TITLE', '测试')
+    store.commit('navigation/SET_TITLE', '测试');
   }
   // 处理其他普通路由
   else if (to.meta.title) {
-    store.commit('navigation/SET_TITLE', to.meta.title)
+    store.commit('navigation/SET_TITLE', to.meta.title);
   }
 
-  next()
+  next();
 })
+
 export default router

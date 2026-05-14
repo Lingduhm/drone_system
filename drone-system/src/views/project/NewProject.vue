@@ -91,22 +91,25 @@ export default {
       description: ''
     })
 
-    const handleSave = async () => {
-      if (!formData.value.title || !formData.value.creator) {
-        alert('请填写必要信息')
-        return
-      }
-      
-       // 保存到 store
-       await store.dispatch('projects/addProject', {
-        title: formData.value.title,
-        creator: formData.value.creator
-      })
-      
-      // TODO: 保存项目数据
-      console.log('保存项目:', formData.value)
-      router.push('/project')
-    }
+const handleSave = async () => {
+  if (!formData.value.title || !formData.value.creator) {
+    alert('请填写必要信息');
+    return;
+  }
+  
+  try {
+    // 发送完整的表单数据
+    const projectData = {
+      ...formData.value  // 使用扩展运算符包含所有表单字段
+    };
+
+    await store.dispatch('projects/addProject', projectData);
+    router.push('/project');
+  } catch (error) {
+    console.error('保存失败:', error);
+    alert('保存失败，请重试');
+  }
+};
 
     const handleCancel = () => {
       router.push('/project')

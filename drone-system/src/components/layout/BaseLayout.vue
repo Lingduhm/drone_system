@@ -37,10 +37,14 @@ export default {
     const store = useStore()
     const route = useRoute()
     
-    const currentTitle = computed(() => store.getters['navigation/currentTitle'])
-    
-    // 根据路由参数设置正确的类型
+    console.log('Current route:', route.path, route.name)
+    console.log('Props type:', props.type)
+
     const layoutType = computed(() => {
+      // 修改逻辑，确保在片段详情页面时返回 fragment-detail
+      if (route.name === 'FragmentDetail') {
+        return 'fragment-detail'
+      }
       if (route.matched.some(record => record.name === 'TemplateDetail')) {
         return 'template-detail'
       }
@@ -48,7 +52,7 @@ export default {
     })
 
     return {
-      currentTitle,
+      currentTitle: computed(() => store.getters['navigation/currentTitle']),
       layoutType
     }
   }

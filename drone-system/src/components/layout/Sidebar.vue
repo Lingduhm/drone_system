@@ -29,14 +29,15 @@ export default {
     }
   },
   setup(props) {
+    console.log('Sidebar type:', props.type) // 添加调试日志
     const store = useStore()
     const router = useRouter()
     const route = useRoute()
 
-    const menuItems = computed(() => 
-      store.getters['navigation/getMenuConfig'](props.type)
-    )
-
+    const menuItems = computed(() => {
+      console.log('Getting menu config for type:', props.type) // 添加调试日志
+      return store.getters['navigation/getMenuConfig'](props.type)
+    })
     const currentPath = computed(() => {
   // 优先使用路由的 activeMenu
   if (route.meta.activeMenu) {
@@ -54,24 +55,15 @@ export default {
       return require(`@/assets/UI/${item.icon}${state}.svg`)
     }
 
-    const navigate = (item) => {
+const navigate = (item) => {
   if (item.name === '返回项目') {
-    router.push({
-      path: '/project',
-      params: { clearExperimentTitle: true } // 添加标记，表示是主动返回
-    })
-    store.commit('navigation/SET_EXPERIMENT_TITLE', null)
-  } 
-  // 非实验页面跳转处理
-  else if (!item.path.startsWith('/experiment')) {
-    // 只有在非浏览器返回的情况下才清除实验标题
-    if (!window.performance.getEntriesByType("navigation")[0].type === 'back') {
-      store.commit('navigation/SET_EXPERIMENT_TITLE', null)
-    }
+    store.commit('navigation/SET_EXPERIMENT_TITLE', null);  // 清除实验标题
+    localStorage.removeItem('currentProjectId');  // 可选：清除本地存储的项目ID
+    router.push('/project');
+  } else {
+    router.push(item.path);
   }
-  router.push(item.path)
 }
-
     return {
       menuItems,
       currentPath,

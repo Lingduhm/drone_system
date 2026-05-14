@@ -1,14 +1,13 @@
 // src/store/modules/templates.js
 import templateService from '@/services/templateService'
 
-const TEMPLATE_TYPES = ['风型', '雨型', '过渡']
-
+// src/store/modules/templates.js
 export default {
   namespaced: true,
   
   state: {
     templates: [],
-    currentType: TEMPLATE_TYPES[0]
+    currentType: '风型', // 默认显示风型模板
   },
 
   mutations: {
@@ -19,9 +18,7 @@ export default {
       state.templates.unshift(template)
     },
     SET_CURRENT_TYPE(state, type) {
-      if (TEMPLATE_TYPES.includes(type)) {
-        state.currentType = type
-      }
+      state.currentType = type
     }
   },
 
@@ -34,28 +31,37 @@ export default {
     async addTemplate({ commit, state }, templateData) {
       const newTemplate = await templateService.saveTemplate({
         ...templateData,
-        type: state.currentType
+        type: state.currentType // 添加模板类型
       })
       commit('ADD_TEMPLATE', newTemplate)
       return newTemplate
+    },
+
+    setCurrentType({ commit }, type) {
+      commit('SET_CURRENT_TYPE', type)
     }
   },
 
   getters: {
-    templateTypes: () => TEMPLATE_TYPES,
+    allTemplates: state => state.templates,
     currentType: state => state.currentType,
-    filteredTemplates: state => query => {
-      // 先按当前类型过滤
-      const typeFiltered = state.templates.filter(t => t.type === state.currentType)
-      
+    getTemplateById: (state) => (id) => {
+      return state.templates.find(template => template.id === id)
+    },
+    filteredTemplates: (state) => (query) => {
+      // 先按类型过滤
+      const typeFiltered = state.templates.filter(template => 
+        template.type === state.currentType
+      )
+      // 再按搜索词过滤
       if (!query) return typeFiltered
       const searchText = query.toLowerCase()
-      
-      return typeFiltered.filter(t => 
-        t.title?.toLowerCase().includes(searchText) ||
-        t.creator?.toLowerCase().includes(searchText)
+      return typeFiltered.filter(template => 
+        template.title.toLowerCase().includes(searchText) ||
+        template.creator.toLowerCase().includes(searchText) ||
+        template.date.toLowerCase().includes(searchText) ||
+        template.id.toLowerCase().includes(searchText)
       )
-    },
-    getTemplateById: state => id => state.templates.find(t => t.id === id)
+    }
   }
 }

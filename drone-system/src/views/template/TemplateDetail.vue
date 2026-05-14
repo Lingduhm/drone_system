@@ -1,3 +1,4 @@
+<!-- src/views/template/TemplateDetail.vue -->
 <template>
   <div class="template-detail">
     <!-- 顶部标签栏 -->
@@ -77,25 +78,28 @@
     </template>
 
     <!-- 函数页面 -->
-    <div v-if="currentTab === '函数'" class="function-container">
-      <div class="action-buttons">
-        <button class="btn btn-blue" @click="handleUpload">
-          <img src="@/assets/UI/上传白色.svg" alt="上传">
-          <span>上传配置文件</span>
-        </button>
-        <button class="btn btn-blue">
-          <img src="@/assets/UI/下载白色.svg" alt="下载">
-          <span>下载配置文件</span>
-        </button>
-      </div>
-
-      <!-- 文件显示区域 -->
-      <div v-if="uploadedFile" class="file-display">
-        <img src="@/assets/UI/文件蓝色.svg" class="file-icon">
-        <span class="file-name">{{ uploadedFile.name }}</span>
-        <img src="@/assets/UI/确认蓝色.svg" class="check-icon">
-      </div>
+    <template v-if="currentTab === '函数'">
+  <div class="function-container">
+    <!-- 文件上传和下载按钮 -->
+    <div class="action-buttons">
+      <button class="btn btn-blue" @click="handleConfigUpload">
+        <img src="@/assets/UI/上传白色.svg" alt="上传">
+        <span>上传配置文件</span>
+      </button>
+      <button class="btn btn-blue" @click="handleConfigDownload">
+        <img src="@/assets/UI/下载白色.svg" alt="下载">
+        <span>下载配置文件</span>
+      </button>
     </div>
+
+    <!-- 文件显示区域 -->
+    <div v-if="uploadedConfig" class="file-display">
+      <img src="@/assets/UI/文件蓝色.svg" class="file-icon">
+      <span class="file-name">{{ uploadedConfig.name }}</span>
+      <img src="@/assets/UI/确认蓝色.svg" class="check-icon">
+    </div>
+  </div>
+</template>
 
     <!-- 使用文档页面 -->
     <div v-if="currentTab === '使用文档'" class="doc-container">
@@ -104,7 +108,7 @@
           <img src="@/assets/UI/上传白色.svg" alt="上传">
           <span>上传配置文件</span>
         </button>
-        <button class="btn btn-blue">
+        <button class="btn btn-blue" @click="handleDocDownload">
           <img src="@/assets/UI/下载白色.svg" alt="下载">
           <span>下载配置文件</span>
         </button>
@@ -135,121 +139,179 @@
 </template>
 
 <script>
+// src/views/template/TemplateDetail.vue script部分
 import { ref, onMounted } from 'vue';
-import { useStore } from 'vuex';
+//import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import { marked } from 'marked';
-import fileService from '@/services/fileService';
+import templateService from '@/services/templateService';
 
 export default {
-  name: 'TemplateDetail',
+ name: 'TemplateDetail',
+ 
+ setup() {
+   //const store = useStore();
+   const route = useRoute();
+   const router = useRouter();
+   
+   const templateId = route.params.id;
+   const currentTab = ref('基本');
+   const tabs = ['基本', '函数', '使用文档', '删除模板'];
+   const uploadedConfig = ref(null);
+   const uploadedDoc = ref(null);
+   const markdownContent = ref('');
 
-  props: {
-    id: {
-      type: String,
-      required: true
-    }
-  },
-  
-  setup(props) {
-    const store = useStore();
-    const route = useRoute();
-    const router = useRouter();
-    
-    const template = ref({});
-    const currentTab = ref('基本');
-    const tabs = ref(['基本', '函数', '使用文档', '删除模板']);
-    const uploadedFile = ref(null);
-    const uploadedDoc = ref(null);
-    const markdownContent = ref('');
+   // 模板信息的响应式变量
+   const templateData = ref({
+     title: '',
+     creator: '',
+     password: '',
+     contact: '',
+     description: '',
+     type: ''
+   });
 
-    onMounted(async () => {
-      const templateData = store.getters['templates/getTemplateById'](props.id);
-      if (templateData) {
-        template.value = { ...templateData };
-        store.commit('navigation/SET_TITLE', template.value.title);
-      }
-    });
+   // 加载模板信息
+   const loadTemplateInfo = async () => {
+     try {
+       const info = await templateService.getTemplateInfo(templateId);
+       if (info) {
+         templateData.value = info;
+       }
+     } catch (error) {
+       console.error('获取模板信息失败:', error);
+     }
+   };
 
-    const switchTab = (tab) => {
-      currentTab.value = tab;
-    };
+   // 获取文档方法
+   const handleGetDocument = async () => {
+     if (templateId) {
+       try {
+         const doc = await templateService.getTemplateDocument(templateId);
+         if (doc && doc.content) {
+           markdownContent.value = marked(doc.content);
+           uploadedDoc.value = { name: doc.filename };
+         }
+       } catch (error) {
+         console.error('获取文档失败:', error);
+       }
+     }
+   };
 
-    const handleUpload = async () => {
-      try {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = '.js,.json';
-        input.onchange = async (e) => {
-          const file = e.target.files[0];
-          if (file) {
-            try {
-              const formData = new FormData();
-              formData.append('file', file);
-              await fileService.uploadConfig(
-                'template',
-                props.id,
-                file,
-                template.value.type
-              );
-              uploadedFile.value = file;
-            } catch (error) {
-              console.error('配置文件上传失败:', error);
-              alert('配置文件上传失败，请重试');
-            }
-          }
+   // 获取配置文件方法
+   const handleGetConfig = async () => {
+  if (templateId) {
+    try {
+      const config = await templateService.getTemplateConfig(templateId);
+      if (config && config.originalName) {
+        uploadedConfig.value = {
+          name: config.originalName
         };
-        input.click();
+      }
+    } catch (error) {
+      console.error('获取配置文件失败:', error);
+      uploadedConfig.value = null;
+    }
+  }
+};
+
+   // 切换标签页
+   const switchTab = (tab) => {
+     currentTab.value = tab;
+     if (tab === '使用文档') {
+       handleGetDocument();
+     } else if (tab === '函数') {
+       handleGetConfig();
+     }
+   };
+
+   // 文档上传处理
+   const handleDocUpload = async () => {
+     const input = document.createElement('input');
+     input.type = 'file';
+     input.accept = '.md';
+     input.onchange = async (e) => {
+       const file = e.target.files[0];
+       if (file) {
+         try {
+           uploadedDoc.value = file;
+           const reader = new FileReader();
+           reader.onload = async (event) => {
+             await templateService.uploadTemplateDocument(templateId, file);
+             markdownContent.value = marked(event.target.result);
+           };
+           reader.readAsText(file);
+         } catch (error) {
+           console.error('文档上传失败:', error);
+           alert('上传失败，请重试');
+           uploadedDoc.value = null;
+           markdownContent.value = '';
+         }
+       }
+     };
+     input.click();
+   };
+
+   // 文档下载处理
+   const handleDocDownload = async () => {
+     if (!uploadedDoc.value) {
+       alert('没有可下载的文档');
+       return;
+     }
+
+     try {
+       await templateService.downloadTemplateDocument(templateId);
+     } catch (error) {
+       console.error('下载文档失败:', error);
+       alert('下载失败，请重试');
+     }
+   };
+
+   // 配置文件上传处理
+const handleConfigUpload = async () => {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.js,.json';
+  input.onchange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        const result = await templateService.uploadTemplateConfig(templateId, file);
+        if (result.success) {
+          uploadedConfig.value = {
+            name: file.name,  // 显示原始文件名
+            systemName: result.filename  // 保存系统文件名用于下载
+          };
+        }
       } catch (error) {
         console.error('配置文件上传失败:', error);
-        alert('配置文件上传失败，请重试');
+        alert('上传失败，请重试');
+        uploadedConfig.value = null;
       }
-    };
+    }
+  };
+  input.click();
+};
 
-    const handleDocUpload = async () => {
+
+   // 配置文件下载处理
+   const handleConfigDownload = async () => {
+     if (!uploadedConfig.value) {
+       alert('没有可下载的配置文件');
+       return;
+     }
+
+     try {
+       await templateService.downloadTemplateConfig(templateId);
+     } catch (error) {
+       console.error('下载配置文件失败:', error);
+       alert('下载失败，请重试');
+     }
+   };
+
+   const handleSave = async () => {
       try {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = '.md';
-        input.onchange = async (e) => {
-          const file = e.target.files[0];
-          if (file) {
-            try {
-              const formData = new FormData();
-              formData.append('file', file);
-              await fileService.uploadDocument(
-                'template',
-                props.id,
-                file,
-                template.value.type
-              );
-              uploadedDoc.value = file;
-
-              const reader = new FileReader();
-              reader.onload = (event) => {
-                markdownContent.value = marked(event.target.result);
-              };
-              reader.readAsText(file);
-            } catch (error) {
-              console.error('文档上传失败:', error);
-              alert('文档上传失败，请重试');
-            }
-          }
-        };
-        input.click();
-      } catch (error) {
-        console.error('文档上传失败:', error);
-        alert('文档上传失败，请重试');
-      }
-    };
-
-    const handleCancel = () => {
-      router.push('/template');
-    };
-
-    const handleSave = async () => {
-      try {
-        await store.dispatch('templates/updateTemplate', template.value);
+        await templateService.updateTemplateInfo(templateId, templateData.value);
         alert('保存成功');
       } catch (error) {
         console.error('保存失败:', error);
@@ -257,27 +319,53 @@ export default {
       }
     };
 
-    const handleDelete = () => {
-      if (confirm('确定要删除该模板吗？此操作不可恢复！')) {
-        router.push('/template');
-      }
-    };
+   const handleCancel = () => {
+     router.push('/template');
+   };
 
-    return {
-      template,
-      currentTab,
-      tabs,
-      uploadedFile,
-      uploadedDoc,
-      markdownContent,
-      switchTab,
-      handleUpload,
-      handleDocUpload,
-      handleCancel,
-      handleSave,
-      handleDelete
-    };
+   const handleDelete = async () => {
+  if (confirm('确定要删除该模板吗？此操作不可恢复！')) {
+    try {
+      const templateId = route.params.id;
+      await templateService.deleteTemplate(templateId);
+      // 删除成功后跳转到模板列表页面
+      router.push('/template');
+    } catch (error) {
+      console.error('删除模板失败:', error);
+      alert('删除失败，请重试');
+    }
   }
+};
+
+   onMounted(async () => {
+     // 加载模板信息
+     await loadTemplateInfo();
+     
+     // 根据当前标签页加载相应内容
+     if (currentTab.value === '使用文档') {
+       handleGetDocument();
+     } else if (currentTab.value === '函数') {
+       handleGetConfig();
+     }
+   });
+
+   return {
+     currentTab,
+     tabs,
+     templateData,
+     uploadedConfig,
+     uploadedDoc,
+     markdownContent,
+     switchTab,
+     handleDocUpload,
+     handleDocDownload,
+     handleConfigUpload,
+     handleConfigDownload,
+     handleSave,
+     handleCancel,
+     handleDelete
+   };
+ }
 };
 </script>
 
@@ -467,7 +555,7 @@ export default {
     padding: 0.8vw;
     display: flex;
     align-items: center;
-    margin: 1vw -1vw;
+    margin: 1vw -1vw -0.5vw;
     width: 32vw;
     border-top: 2px solid rgb(232, 232, 232);    // 添加这行
     border-bottom: 2px solid rgb(232, 232, 232);  // 添加这行

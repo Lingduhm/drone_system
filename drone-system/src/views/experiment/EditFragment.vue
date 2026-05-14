@@ -1,11 +1,11 @@
 <template>
   <div class="fragment-list">
-    <!-- 操作栏 -->
+    <!-- 操作栏 - 保持不变 -->
     <div class="action-bar">
       <div class="action-container new-container" @click="handleNewFragment">
-  <img src="@/assets/UI/新建白色.svg" alt="新建" class="new-icon">
-  <span class="new-text">新建片段</span>
-</div>
+        <img src="@/assets/UI/新建白色.svg" alt="新建" class="new-icon">
+        <span class="new-text">新建片段</span>
+      </div>
 
       <div class="action-container search-container">
         <input 
@@ -17,7 +17,7 @@
       </div>
     </div>
 
-    <!-- 片段网格 -->
+    <!-- 片段网格 - 保持不变 -->
     <div class="fragment-grid">
       <div 
         v-for="fragment in filteredFragments" 
@@ -42,13 +42,33 @@
         </div>
       </div>
     </div>
+
+    <!-- 新增密码验证模态框 -->
+    <div v-if="showPasswordModal" class="password-modal">
+      <div class="modal-content">
+        <h3>请输入密码</h3>
+        <input 
+          type="password" 
+          v-model="inputPassword"
+          placeholder="请输入密码"
+          class="password-input"
+          @keyup.enter="verifyPassword"
+          ref="passwordInput"
+        >
+        <div class="modal-footer">
+          <button class="modal-btn cancel-btn" @click="handleCancel">取消</button>
+          <button class="modal-btn confirm-btn" @click="verifyPassword">确定</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, watch, nextTick } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import projectService from '@/services/projectService'
+import fragmentService from '@/services/fragmentService'
 
 export default {
   name: 'EditFragment',
@@ -59,6 +79,12 @@ export default {
     const searchQuery = ref('')
     const fragments = ref([])
     const loading = ref(false)
+
+    // 新增密码验证相关状态
+    const showPasswordModal = ref(false)
+    const inputPassword = ref('')
+    const currentFragment = ref(null)
+    const passwordInput = ref(null)
 
     const fetchFragments = async () => {
       const projectId = route.query.projectId || localStorage.getItem('currentProjectId');
@@ -97,10 +123,8 @@ export default {
       }
     };
 
-    // 初始加载
     onMounted(fetchFragments);
 
-    // 监听路由变化
     watch(
       () => route.fullPath,
       () => {
@@ -109,7 +133,7 @@ export default {
       }
     );
 
-   const filteredFragments = computed(() => {
+    const filteredFragments = computed(() => {
       console.log('过滤前的片段数据:', fragments.value);
       if (!searchQuery.value) return fragments.value;
       const query = searchQuery.value.toLowerCase();
@@ -121,36 +145,101 @@ export default {
       );
     });
 
+    const handleNewFragment = () => {
+      const projectId = route.query.projectId || localStorage.getItem('currentProjectId');
+      router.push({
+        path: '/experiment/fragment/new',
+        query: { projectId }
+      });
+    };
 
-   const handleNewFragment = () => {
-     const projectId = route.query.projectId || localStorage.getItem('currentProjectId');
-     router.push({
-       path: '/experiment/fragment/new',
-       query: { projectId }
-     });
-   };
+    const viewFragment = async (fragment) => {
+  try {
+    const projectId = route.query.projectId || localStorage.getItem('currentProjectId');
+    if (!projectId) {
+      alert('未找到项目ID');
+      return;
+    }
+    
+    // 获取片段文档信息
+    const docInfo = await fragmentService.getFragmentDocument(projectId, fragment.id);
+    
+    if (docInfo && docInfo.content) {
+      // 将文档内容存储在localStorage中
+      localStorage.setItem(`fragment_doc_${fragment.id}`, docInfo.content);
+      
+      // 打开新标签页
+      const url = `${window.location.origin}/markdown-viewer.html?type=fragment&id=${fragment.id}`;
+      window.open(url, '_blank');
+    } else {
+      // 如果没有文档，则显示提示
+      alert('该片段未上传使用文档');
+    }
+  } catch (error) {
+    console.error('获取片段文档失败:', error);
+    alert('获取片段文档失败');
+  }
+};
 
-   const viewFragment = (fragment) => {
-     console.log('查看片段:', fragment.id);
-   };
+    // 修改 editFragment 方法以添加密码验证
+    const editFragment = async (fragment) => {
+      currentFragment.value = fragment;
+      showPasswordModal.value = true;
+      await nextTick();
+      passwordInput.value?.focus();
+    };
 
-   const editFragment = (fragment) => {
-     const projectId = route.query.projectId || localStorage.getItem('currentProjectId');
-     router.push({
-       path: `/experiment/fragment/${fragment.id}`,
-       query: { projectId }
-     });
-   };
+    // 新增密码验证相关方法
+    const handleCancel = () => {
+      showPasswordModal.value = false;
+      inputPassword.value = '';
+      currentFragment.value = null;
+    };
 
-   return {
-     searchQuery,
-     filteredFragments,
-     viewFragment,
-     editFragment,
-     handleNewFragment,
-     loading
-   };
- }
+    const verifyPassword = async () => {
+      if (!currentFragment.value || !inputPassword.value) return;
+
+      try {
+        const projectId = route.query.projectId || localStorage.getItem('currentProjectId');
+        const result = await fragmentService.verifyPassword(
+          projectId,
+          currentFragment.value.id,
+          inputPassword.value
+        );
+
+        if (result.success) {
+          router.push({
+            path: `/experiment/fragment/${currentFragment.value.id}`,
+            query: { projectId }
+          });
+        } else {
+          alert('密码错误,请重试');
+        }
+      } catch (error) {
+        console.error('验证失败:', error);
+        alert('验证失败,请重试');
+      } finally {
+        inputPassword.value = '';
+        showPasswordModal.value = false;
+        currentFragment.value = null;
+      }
+    };
+
+    return {
+      searchQuery,
+      filteredFragments,
+      viewFragment,
+      editFragment,
+      handleNewFragment,
+      loading,
+      // 新增返回的状态和方法
+      showPasswordModal,
+      inputPassword,
+      handleCancel,
+      verifyPassword,
+      passwordInput
+    };
+  }
 };
 </script>
 
@@ -295,6 +384,79 @@ export default {
 
   &:hover {
     transform: scale(1.1);
+  }
+}
+
+.password-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+
+  .modal-content {
+    background: white;
+    padding: 2vw;
+    border-radius: 0.5vw;
+    width: 20vw;
+
+    h3 {
+      margin: 0 0 1.5vw;
+      font-size: 1.2vw;
+      color: #333;
+    }
+
+    .password-input {
+      width: 100%;
+      padding: 0.8vw;
+      border: 1px solid #e8e8e8;
+      border-radius: 0.3vw;
+      margin-bottom: 1.5vw;
+      font-size: 0.9vw;
+      
+      &:focus {
+        outline: none;
+        border-color: #00A0E9;
+      }
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1vw;
+    }
+
+    .modal-btn {
+      padding: 0.6vw 1.2vw;
+      border: none;
+      border-radius: 0.3vw;
+      cursor: pointer;
+      font-size: 0.9vw;
+      transition: all 0.3s;
+
+      &.cancel-btn {
+        background: #f5f5f5;
+        color: #666;
+
+        &:hover {
+          background: #e8e8e8;
+        }
+      }
+
+      &.confirm-btn {
+        background: #00A0E9;
+        color: white;
+
+        &:hover {
+          background: #007ACC;
+        }
+      }
+    }
   }
 }
 </style>

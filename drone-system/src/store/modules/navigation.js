@@ -24,7 +24,7 @@ export default {
         { name: '返回模板', path: '/template', icon: '模板', title: '模板' }
       ],
       'fragment-detail': [
-        { name: '返回片段', path: '/experiment/edit', icon: '片段', title: '片段编辑' }
+        { name: '返回片段', path: '/experiment/edit', icon: '返回', title: '片段编辑' }
       ]
     }
   },

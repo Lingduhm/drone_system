@@ -1,6 +1,6 @@
 <template>
   <div class="project-list">
-    <!-- 操作栏 -->
+    <!-- 操作栏和项目网格保持不变 -->
     <div class="action-bar">
       <div class="action-container new-project-container" @click="$router.push('/project/new')">
         <img src="@/assets/UI/新建白色.svg" alt="新建" class="new-project-icon">
@@ -17,7 +17,6 @@
       </div>
     </div>
 
-    <!-- 项目网格 -->
     <div class="project-grid">
       <div 
         v-for="project in filteredProjects" 
@@ -42,12 +41,31 @@
         </div>
       </div>
     </div>
+
+    <!-- 新增密码验证模态窗口 -->
+    <div v-if="showPasswordModal" class="password-modal">
+      <div class="modal-content">
+        <h3>请输入密码</h3>
+        <input 
+          type="password" 
+          v-model="inputPassword"
+          placeholder="请输入项目密码"
+          class="password-input"
+          @keyup.enter="verifyPassword"
+          ref="passwordInput"
+        >
+        <div class="modal-footer">
+          <button class="modal-btn cancel-btn" @click="handleCancel">取消</button>
+          <button class="modal-btn confirm-btn" @click="verifyPassword">确定</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { ref, computed, onMounted } from 'vue';
-//import { useStore } from 'vuex';
+import { ref, computed, onMounted, nextTick } from 'vue';
+import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import projectService from '@/services/projectService';
 
@@ -55,15 +73,18 @@ export default {
   name: 'ProjectList',
   
   setup() {
-    //const store = useStore();
+    const store = useStore();
     const router = useRouter();
     const searchQuery = ref('');
     const projects = ref([]);
+    const showPasswordModal = ref(false);
+    const inputPassword = ref('');
+    const currentProject = ref(null);
+    const passwordInput = ref(null);
 
     onMounted(async () => {
       try {
         const data = await projectService.getAllProjects();
-        // 为每个项目添加格式化的日期
         projects.value = data.map(project => ({
           ...project,
           date: new Date(project.createTime).toLocaleDateString('zh-CN', {
@@ -90,37 +111,91 @@ export default {
       );
     });
 
-    const viewProject = (project) => {
-      console.log('查看项目:', project.id);
+    const viewProject = async (project) => {
+  try {
+    // 获取项目文档信息
+    const docInfo = await projectService.getProjectDocument(project.id);
+    
+    if (docInfo && docInfo.content) {
+      // 将文档内容存储在localStorage中
+      localStorage.setItem(`project_doc_${project.id}`, docInfo.content);
+      
+      // 打开新标签页
+      const url = `${window.location.origin}/markdown-viewer.html?type=project&id=${project.id}`;
+      window.open(url, '_blank');
+    } else {
+      // 如果没有文档，则显示提示
+      alert('该项目未上传使用文档');
+    }
+  } catch (error) {
+    console.error('获取项目文档失败:', error);
+    alert('获取项目文档失败');
+  }
+};
+
+    const enterProject = async (project) => {
+      currentProject.value = project;
+      showPasswordModal.value = true;
+      // 等待模态窗口显示后聚焦输入框
+      await nextTick();
+      passwordInput.value?.focus();
     };
 
-    const enterProject = (project) => {
-  console.log('进入项目，ID:', project.id);
-  // 先在 localStorage 中保存项目 ID，以确保整个流程都能访问到
-  localStorage.setItem('currentProjectId', project.id);
-  router.push({
-    path: '/experiment',
-    query: { projectId: project.id }
-  });
-};
+    const handleCancel = () => {
+      showPasswordModal.value = false;
+      inputPassword.value = '';
+      currentProject.value = null;
+    };
+
+    const verifyPassword = async () => {
+      if (!currentProject.value || !inputPassword.value) return;
+
+      try {
+        const result = await projectService.verifyPassword(
+          currentProject.value.id,
+          inputPassword.value
+        );
+
+        if (result.success) {
+          localStorage.setItem('currentProjectId', currentProject.value.id);
+          store.commit('navigation/SET_EXPERIMENT_TITLE', currentProject.value.title);
+          router.push({
+            path: '/experiment',
+            query: { projectId: currentProject.value.id }
+          });
+        } else {
+          alert('密码错误,请重试');
+        }
+      } catch (error) {
+        console.error('验证失败:', error);
+        alert('验证失败,请重试');
+      } finally {
+        inputPassword.value = '';
+        showPasswordModal.value = false;
+        currentProject.value = null;
+      }
+    };
 
     return {
       searchQuery,
       filteredProjects,
       viewProject,
-      enterProject
+      enterProject,
+      showPasswordModal,
+      inputPassword,
+      handleCancel,
+      verifyPassword,
+      passwordInput
     };
   }
 };
 </script>
 
-
 <style lang="scss" scoped>
-// 复用相同的样式
+
 .project-list {
   padding: 1vw;
 }
-
 
 .action-bar {
   display: flex;
@@ -258,6 +333,80 @@ export default {
 
   &:hover {
     transform: scale(1.1);
+  }
+}
+
+// 新增模态窗口样式
+.password-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+
+  .modal-content {
+    background: white;
+    padding: 2vw;
+    border-radius: 0.5vw;
+    width: 20vw;
+
+    h3 {
+      margin: 0 0 1.5vw;
+      font-size: 1.2vw;
+      color: #333;
+    }
+
+    .password-input {
+      width: 100%;
+      padding: 0.8vw;
+      border: 1px solid #e8e8e8;
+      border-radius: 0.3vw;
+      margin-bottom: 1.5vw;
+      font-size: 0.9vw;
+      
+      &:focus {
+        outline: none;
+        border-color: #00A0E9;
+      }
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1vw;
+    }
+
+    .modal-btn {
+      padding: 0.6vw 1.2vw;
+      border: none;
+      border-radius: 0.3vw;
+      cursor: pointer;
+      font-size: 0.9vw;
+      transition: all 0.3s;
+
+      &.cancel-btn {
+        background: #f5f5f5;
+        color: #666;
+
+        &:hover {
+          background: #e8e8e8;
+        }
+      }
+
+      &.confirm-btn {
+        background: #00A0E9;
+        color: white;
+
+        &:hover {
+          background: #007ACC;
+        }
+      }
+    }
   }
 }
 </style>

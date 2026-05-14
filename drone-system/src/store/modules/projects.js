@@ -41,12 +41,16 @@ export default {
 
     async addProject({ commit }, projectData) {
       try {
-        const newProject = await projectService.saveProject(projectData)
-        commit('ADD_PROJECT', newProject)
-        return newProject
+        // 确保发送完整的项目数据
+        const newProject = await projectService.saveProject({
+          ...projectData,
+          createTime: new Date().toISOString()
+        });
+        commit('ADD_PROJECT', newProject);
+        return newProject;
       } catch (error) {
-        console.error('Error adding project:', error)
-        throw error
+        console.error('Error adding project:', error);
+        throw error;
       }
     },
 

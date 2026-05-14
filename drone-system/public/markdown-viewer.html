@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文档查看器</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background-color: #f8f8f8;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: Consolas, monospace;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <pre id="document-content">加载中...</pre>
+
+    <script>
+        // 显示文档内容的函数
+        function displayDocument() {
+            const params = new URLSearchParams(window.location.search);
+            const type = params.get('type');
+            const id = params.get('id');
+            const content = localStorage.getItem(`${type}_doc_${id}`);
+            
+            if (content) {
+                document.getElementById('document-content').textContent = content;
+                document.title = `${type === 'project' ? '项目' : type === 'template' ? '模板' : '片段'}文档`;
+            } else {
+                document.getElementById('document-content').textContent = '找不到文档内容。请返回并重新点击查看按钮。';
+            }
+        }
+
+        // 执行主函数
+        displayDocument();
+    </script>
+</body>
+</html>

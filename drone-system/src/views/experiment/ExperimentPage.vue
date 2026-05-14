@@ -49,30 +49,34 @@
       <!-- 操作按钮组 -->
       <div class="operation-buttons">
         <div class="action-buttons-row">
-          <button class="btn btn-blue">
+          <button class="btn btn-blue" @click="handleRename"
+          :disabled="selectedRecords.length !== 1">
             <img src="@/assets/UI/保存白色.svg" alt="重命名">
             <span>重命名</span>
           </button>
-          <button class="btn btn-red">
+          <button class="btn btn-red"   @click="handleDelete"
+          :disabled="selectedRecords.length === 0">
             <img src="@/assets/UI/删除.svg" alt="删除记录">
             <span>删除记录</span>
           </button>
         </div>
         <div class="action-buttons-row">
-          <button class="btn btn-blue">
+          <button class="btn btn-blue"   @click="handleDownload"
+          :disabled="selectedRecords.length === 0">
             <img src="@/assets/UI/下载白色.svg" alt="实验记录下载">
             <span>实验记录下载</span>
           </button>
-          <button class="btn btn-blue">
+          <button class="btn btn-blue"   @click="handleBatchDownload"
+          :disabled="!records.length">
             <img src="@/assets/UI/下载白色.svg" alt="所有记录打包下载">
             <span>所有记录打包下载</span>
           </button>
         </div>
       </div>
 
-      <!-- 记录列表 -->
-      <div class="records-container">
-  <table class="records-table">
+<!-- 记录列表 -->
+<div class="records-container">
+  <table class="records-table" v-if="currentFragment">
     <thead>
       <tr>
         <th></th>
@@ -82,7 +86,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="record in records" :key="record.id">
+      <tr v-for="record in filteredRecords" :key="record.name">
         <td>
           <button 
             class="select-btn" 
@@ -91,8 +95,8 @@
           ></button>
         </td>
         <td>{{ record.name }}</td>
-        <td>{{ record.duration }}</td>
-        <td>{{ record.time }}</td>
+        <td>{{ formatDuration(record.duration) }}</td>
+        <td>{{ formatTime(record.time) }}</td>
       </tr>
     </tbody>
   </table>
@@ -108,20 +112,27 @@
           <div class="fan-grid">
             <div 
               v-for="group in 144" 
-              :key="'group-' + group" 
+              :key="'group-' + group"
               class="fan-group"
             >
-              <div 
+            <div 
                 v-for="fan in 9" 
-                :key="'fan-' + group + '-' + fan" 
+                :key="'fan-' + group + '-' + fan"
                 class="fan"
+                :style="getFanStyle(group - 1, fan - 1)"
               ></div>
             </div>
           </div>
         </div>
 
         <!-- 空白容器 -->
-        <div class="empty-container"></div>
+<div class="empty-container">
+  <ThreeScene 
+    :is-playing="isPlaying"
+    :is-paused="isPaused"
+    @update-coordinates="handleCoordinateUpdate"
+  />
+</div>
       </div>
 
       <!-- 渐变条行 -->
@@ -138,354 +149,1196 @@
       </div>
 
       <!-- 控制面板行 -->
-      <div class="containers-row">
-        <div class="control-panel-container">
-          <!-- 控制面板 -->
-          <div class="control-panel">
-            <!-- 实验标签页 -->
-            <div class="experiment-tabs">
+<div class="containers-row">
+  <div class="control-panel-container">
+    <!-- 控制面板 -->
+    <div class="control-panel">
+      <!-- 实验标签页 -->
+      <div class="experiment-tabs">
+        <div 
+          v-for="tab in tabs" 
+          :key="tab"
+          :class="['tab', { active: currentTab === tab }]"
+          @click="handleTabClick(tab)"
+        >
+          {{ tab }}
+        </div>
+      </div>
+
+      <!-- 根据标签页显示不同内容 -->
+      <template v-if="currentTab === '高级实验'">
+        <div class="advanced-notice">
+          <p class="notice-text">高级实验采用外部API全取代控制台实验功能，无法在控制台提供实验。</p>
+          <p class="notice-text">高级实验不生成实验记录。</p>
+          <div class="notice-buttons">
+            <button class="notice-btn" @click="handleClose">关闭</button>
+            <button class="notice-btn active" @click="handleStart">开启</button>
+          </div>
+        </div>
+      </template>
+
+      <!-- 回放界面 -->
+      <template v-else-if="currentTab === '回放'">
+        <div class="playback-notice">
+          <!-- 提示文字 -->
+          <p class="notice-tip" v-if="!selectedRecordForPlayback">
+            请选中一条要回放的实验记录
+          </p>
+          
+          <!-- 选中记录信息 -->
+          <div class="track-info" v-if="selectedRecordForPlayback">
+            <p class="notice-tip-active">您选中要回放的实验记录：</p>
+            <div class="track-row">
+              <span class="track-name">{{ selectedRecordForPlayback.name }}</span>
+              <div class="track-details">
+                <span>{{ formatRecordDuration(selectedRecordForPlayback.duration) }}</span>
+                <span>{{ formatRecordTime(selectedRecordForPlayback.time) }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 播放控件 -->
+          <div class="playback-controls">
+            <!-- 进度条 -->
+            <div class="progress-bar">
               <div 
-                v-for="tab in tabs" 
-                :key="tab"
-                :class="['tab', { active: currentTab === tab }]"
-                @click="currentTab = tab"
-              >
-                {{ tab }}
-              </div>
+                class="progress" 
+                :style="{ width: `${playbackProgress}%` }"
+              ></div>
+              <div 
+                class="progress-handle" 
+                :style="{ left: `${playbackProgress}%` }"
+              ></div>
             </div>
+            <!-- 进度文本 -->
+            <div class="progress-text">{{ currentTime }} / {{ totalTime }}</div>
+            <!-- 控制按钮组 -->
+<div class="control-buttons">
+  <button class="control-btn terminal-btn" @click="openTerminal">
+    <img src="@/assets/UI/终端白色.svg" alt="Record">
+  </button>
+  <div class="playback-buttons">
+    <button class="control-btn" @click="togglePlayback">
+      <!-- 根据播放状态显示不同图标 -->
+      <div v-if="!isPlaying || (isPlaying && isPaused)" class="play-icon"></div>
+      <div v-else class="pause-icon">
+        <div class="pause-line"></div>
+        <div class="pause-line"></div>
+      </div>
+    </button>
+    <button class="control-btn" @click="stopPlayback" :disabled="!isPlaying">
+      <div class="stop-icon"></div>
+    </button>
+  </div>
+</div>
+          </div>
+        </div>
+      </template>
 
-            <!-- 根据标签页显示不同内容 -->
-            <template v-if="currentTab === '高级实验'">
-              <div class="advanced-notice">
-                <p class="notice-text">高级实验采用外部API全取代控制台实验功能，无法在控制台提供实验。</p>
-                <p class="notice-text">高级实验不生成实验记录。</p>
-                <div class="notice-buttons">
-                  <button class="notice-btn" @click="handleClose">关闭</button>
-                  <button class="notice-btn active" @click="handleStart">开启</button>
+      <!-- 实验记录内容 -->
+      <template v-else>
+        <!-- 实验片段选择 -->
+        <div class="experiment-select">
+          <div class="select-label">实验片段选择</div>
+          <div class="select-container" @click="toggleControlDropdown">
+            <span>{{ controlSelectedFragmentLabel }}</span>
+            <img 
+              src="@/assets/UI/展开蓝色.svg" 
+              alt="arrow" 
+              :class="['dropdown-arrow', { 'rotated': controlDropdownOpen }]"
+              style="width: 1vw; height: 1vw;"
+            >
+          </div>
+          <!-- 下拉菜单选项 -->
+          <transition name="dropdown">
+            <div v-if="controlDropdownOpen" class="dropdown-options">
+              <div class="dropdown-scroll">
+                <div 
+                  v-for="option in controlFragmentOptions" 
+                  :key="option.value"
+                  class="dropdown-option"
+                  @click="selectControlFragment(option.value)"
+                >
+                  {{ option.label }}
                 </div>
               </div>
-            </template>
-
-            <!-- 回放界面 -->
-            <template v-else-if="currentTab === '回放'">
-  <div class="playback-notice">
-    <!-- 提示文字 -->
-    <p class="notice-tip" v-if="!selectedRecordForPlayback">
-      请选中一条要回放的实验记录
-    </p>
-    
-    <!-- 选中记录信息 -->
-    <div class="track-info" v-if="selectedRecordForPlayback">
-      <p class="notice-tip-active">您选中要回放的实验记录：</p>
-      <div class="track-row">
-        <span class="track-name">{{ selectedRecordForPlayback.name }}</span>
-        <div class="track-details">
-          <span>{{ selectedRecordForPlayback.duration }}</span>
-          <span>{{ selectedRecordForPlayback.time }}</span>
+            </div>
+          </transition>
         </div>
-      </div>
+
+        <!-- 进度条 -->
+        <div class="progress-bar">
+          <div 
+            class="progress" 
+            :style="{ width: `${playbackProgress}%` }"
+          ></div>
+          <div 
+            class="progress-handle" 
+            :style="{ left: `${playbackProgress}%` }"
+          ></div>
+        </div>
+
+        <!-- 进度文本 -->
+        <div class="progress-text">{{ currentTime }} / {{ totalTime }}</div>
+
+        <!-- 控制按钮组 -->
+        <div class="control-buttons">
+          <button class="control-btn terminal-btn" @click="openTerminal">
+            <img src="@/assets/UI/终端白色.svg" alt="Record">
+          </button>
+          <div class="playback-buttons">
+            <button class="control-btn" @click="togglePlayback">
+              <div v-if="isPaused || !isPlaying" class="play-icon"></div>
+              <div v-else class="pause-icon">
+                <div class="pause-line"></div>
+                <div class="pause-line"></div>
+              </div>
+            </button>
+            <button class="control-btn" @click="stopPlayback">
+              <div class="stop-icon"></div>
+            </button>
+          </div>
+        </div>
+      </template>
     </div>
 
-    <!-- 播放控件 - 始终显示 -->
-    <div class="playback-controls">
-      <!-- 进度条 -->
-      <div class="progress-bar">
-        <div class="progress"></div>
-        <div class="progress-handle"></div>
-      </div>
-      <!-- 进度文本 -->
-      <div class="progress-text">1:00 / 5:00</div>
-      <!-- 控制按钮组 -->
-      <div class="control-buttons">
-        <button class="control-btn terminal-btn">
-          <img src="@/assets/UI/终端白色.svg" alt="Record">
-        </button>
-        <div class="playback-buttons">
-          <button class="control-btn" @click="togglePause">
-            <div class="pause-icon">
-              <div class="pause-line"></div>
-              <div class="pause-line"></div>
-            </div>
-          </button>
-          <button class="control-btn" @click="play">
-            <div class="play-icon"></div>
-          </button>
-          <button class="control-btn" @click="stop">
-            <div class="stop-icon"></div>
-          </button>
-        </div>
-      </div>
+    <!-- 数据表格 -->
+    <div class="table-container">
+      <table class="xyz-table">
+        <thead>
+          <tr>
+            <th>时间 (s)</th>
+            <th>X</th>
+            <th>Y</th>
+            <th>Z</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="record in xyzRecords" :key="record.id">
+            <td>{{ record.time }}</td>
+            <td>{{ record.x }}</td>
+            <td>{{ record.y }}</td>
+            <td>{{ record.z }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
     </div>
   </div>
 </template>
-
-            <!-- 实验记录内容 -->
-            <template v-else>
-              <!-- 实验片段选择 -->
-              <div class="experiment-select">
-                <div class="select-label">实验片段选择</div>
-                <div class="select-container" @click="toggleControlDropdown">
-                  <span>{{ controlSelectedFragmentLabel }}</span>
-                  <img 
-                    src="@/assets/UI/展开蓝色.svg" 
-                    alt="arrow" 
-                    :class="['dropdown-arrow', { 'rotated': controlDropdownOpen }]"
-                    style="width: 1vw; height: 1vw;"
-                  >
-                </div>
-                <!-- 下拉菜单选项 -->
-                <transition name="dropdown">
-                  <div v-if="controlDropdownOpen" class="dropdown-options">
-                    <div class="dropdown-scroll">
-                      <div 
-                        v-for="option in controlFragmentOptions" 
-                        :key="option.value"
-                        class="dropdown-option"
-                        @click="selectControlFragment(option.value)"
-                      >
-                        {{ option.label }}
-                      </div>
-                    </div>
-                  </div>
-                </transition>
-              </div>
-
-              <!-- 进度条 -->
-              <div class="progress-bar">
-                <div class="progress"></div>
-                <div class="progress-handle"></div>
-              </div>
-
-              <!-- 进度文本 -->
-              <div class="progress-text">1:00 / 4:00</div>
-
-              <!-- 控制按钮组 -->
-              <div class="control-buttons">
-                <button class="control-btn terminal-btn">
-                  <img src="@/assets/UI/终端白色.svg" alt="Record">
-                </button>
-                <div class="playback-buttons">
-                  <button class="control-btn" @click="togglePause">
-                    <div class="pause-icon">
-                      <div class="pause-line"></div>
-                      <div class="pause-line"></div>
-                    </div>
-                  </button>
-                  <button class="control-btn" @click="play">
-                    <div class="play-icon"></div>
-                  </button>
-                  <button class="control-btn" @click="stop">
-                    <div class="stop-icon"></div>
-                  </button>
-                </div>
-              </div>
-            </template>
-          </div>
-
-          <!-- 数据表格 -->
-          <div class="table-container">
-            <table class="xyz-table">
-              <thead>
-                <tr>
-                  <th>时间 (s)</th>
-                  <th>X</th>
-                  <th>Y</th>
-                  <th>Z</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="record in xyzRecords" :key="record.id">
-                  <td>{{ record.time }}</td>
-                  <td>{{ record.x }}</td>
-                  <td>{{ record.y }}</td>
-                  <td>{{ record.z }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 
 <script>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
+import projectService from '@/services/projectService'
+import fragmentService from '@/services/fragmentService'
+import ThreeScene from '@/components/ThreeScene.vue'
 
 export default {
   name: 'ExperimentPage',
+
+  components: {
+    ThreeScene
+  },
   
   setup() {
     const store = useStore()
+    const route = useRoute()
     const searchQuery = ref('')
     const selectedFragment = ref('')
     const currentTab = ref('实验记录')
     const controlDropdownOpen = ref(false)
-    const controlSelectedFragment = ref('A')
+    const controlSelectedFragment = ref('')
+    const isLoading = ref(false)
+    const currentFragment = ref(null)
+    const records = ref([])
+    const xyzRecords = ref([]); 
 
     // 标签页选项
     const tabs = ['实验记录', '高级实验', '回放']
 
-    // 片段选项
-    const controlFragmentOptions = [
-      { value: 'A', label: '片段 A' },
-      { value: 'B', label: '片段 B' },
-      { value: 'C', label: '片段 C' }
-    ]
+    // 存储片段数据 
+    const fragments = ref([])
+    const dropdownOpen = ref(false)
+    const selectedFragmentLabel = ref('')
 
-    // 实验记录数据
-    // 实验记录数据
-const records = ref([
-  {
-    id: '1',
-    name: 'track-1',
-    duration: '300s',
-    time: '2024-12-25 13:27:14',
-    selected: false
-  },
-  {
-    id: '2',
-    name: '基础飞行测试',
-    duration: '450s',
-    time: '2024-12-25 14:30:22',
-    selected: false
-  },
-  {
-    id: '3',
-    name: '涡流稳定实验A',
-    duration: '600s',
-    time: '2024-12-25 15:45:36',
-    selected: false
-  },
-  {
-    id: '4',
-    name: '高空悬停测试',
-    duration: '280s',
-    time: '2024-12-25 16:20:45',
-    selected: false
-  }
-])
+    // 获取记录数据的方法
+    const getRecords = async (fragmentId) => {
+    try {
+        if (!fragmentId) {
+            console.log('No fragment ID provided');
+            return;
+        }
+        const projectId = route.query.projectId || localStorage.getItem('currentProjectId');
+        if (!projectId) {
+            console.log('No project ID found');
+            return;
+        }
 
+        // 添加调试日志
+        console.log('Fetching records for fragment:', fragmentId, 'project:', projectId);
+
+        const response = await fetch(
+            `http://${window.location.hostname}:3000/api/records/${fragmentId}?projectId=${projectId}`
+        );
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        
+        // 对记录进行排序
+        records.value = data
+            .map(record => ({
+                ...record,
+                selected: false,
+                isTrack: /^track-\d+$/.test(record.name)
+            }))
+            .sort((a, b) => {
+                // 自定义命名的记录放在最上面
+                if (!a.isTrack && b.isTrack) return -1;
+                if (a.isTrack && !b.isTrack) return 1;
+                if (!a.isTrack && !b.isTrack) return 0;
+                
+                // track-n 按数字大小排序
+                const numA = parseInt(a.name.split('-')[1]);
+                const numB = parseInt(b.name.split('-')[1]);
+                return numA - numB;
+            });
+        
+        // 更新片段名称
+        const selectedFragment = fragments.value.find(f => f.id === fragmentId);
+        if (selectedFragment) {
+            selectedFragmentLabel.value = selectedFragment.title;
+        }
+    } catch (error) {
+        console.error('获取记录列表失败:', error);
+        records.value = [];
+    }
+};
+    // 获取片段列表
+    const fetchFragments = async () => {
+        const projectId = route.query.projectId || localStorage.getItem('currentProjectId')
+        if (!projectId) {
+            console.error('未找到项目ID')
+            return
+        }
+
+        try {
+            const response = await projectService.getProjectFragments(projectId)
+            if (Array.isArray(response)) {
+                fragments.value = response
+                // 如果有片段，默认选中第一个并加载其PWM数据
+                if (response.length > 0) {
+                    selectedFragmentLabel.value = response[0].title
+                    controlSelectedFragment.value = response[0].id
+                    currentFragment.value = response[0]
+                    // 设置选中片段
+                    await store.dispatch('experiments/setSelectedFragment', {
+                        ...response[0],
+                        projectId
+                    });
+                    await loadFragmentPWM(response[0].id)
+                    await getRecords(response[0].id)
+                }
+            }
+        } catch (error) {
+            console.error('获取片段列表失败:', error)
+        }
+    }
+
+    // 获取 PWM 数据的方法
+const loadFragmentPWM = async (fragmentId) => {
+    try {
+        isLoading.value = true;
+        const projectId = route.query.projectId || localStorage.getItem('currentProjectId');
+        if (!projectId) {
+            throw new Error('Project ID not found');
+        }
+
+        console.log('Loading PWM data for fragment:', fragmentId, 'project:', projectId);
+        
+        const result = await fragmentService.getPWMData(fragmentId);
+        
+        if (result.success && result.processedFile) {
+            if (store.state.experimentPlayback.ws) {
+                store.state.experimentPlayback.ws.send(JSON.stringify({
+                    type: 'INITIALIZE',
+                    projectId,
+                    fragmentId,
+                    filename: result.processedFile
+                }));
+            }
+        } else {
+            throw new Error(result.message || 'Failed to get PWM data');
+        }
+    } catch (error) {
+        console.error('Failed to load PWM data:', error);
+        throw error;
+    } finally {
+        isLoading.value = false;
+    }
+};
+    // 生成选项
+    const fragmentOptions = computed(() => {
+        return fragments.value.map(fragment => ({
+            value: fragment.id,
+            label: fragment.title
+        }))
+    })
+
+    const controlFragmentOptions = computed(() => {
+        return fragmentOptions.value
+    })
+
+    // 播放控制相关计算属性
+    const isPlaying = computed(() => store.state.experimentPlayback.isPlaying)
+    const isPaused = computed(() => store.state.experimentPlayback.isPaused)
+    const playbackProgress = computed(() => store.getters['experimentPlayback/playbackProgress'])
+    const currentTime = computed(() => store.getters['experimentPlayback/currentTime'])
+    const totalTime = computed(() => store.getters['experimentPlayback/totalTime'])
+    const matrixColors = computed(() => store.getters['experimentPlayback/matrixColors'])
     // 选中的记录
     const selectedRecord = computed(() => {
-      return records.value ? records.value.find(record => record.selected) : null
+        return records.value ? records.value.find(record => record.selected) : null
     })
 
     const selectedRecordForPlayback = computed(() => {
-  if (currentTab.value !== '回放') return null
-  return records.value.find(record => record.selected)
-})
-
-    // XYZ数据
-    const xyzRecords = computed(() => store.getters['experiments/xyzData'])
-
-    // 计算当前选中的片段标签
-    const controlSelectedFragmentLabel = computed(() => {
-      const option = controlFragmentOptions.find(opt => opt.value === controlSelectedFragment.value)
-      return option ? option.label : '请选择片段'
+        if (currentTab.value !== '回放') return null
+        return records.value.find(record => record.selected)
     })
 
     // 过滤记录
-    const filteredRecords = computed(() => store.getters['experiments/filteredRecords'](searchQuery.value))
+    const filteredRecords = computed(() => {
+  if (!searchQuery.value) return records.value;
+  
+  const query = searchQuery.value.toLowerCase();
+  return records.value.filter(record => {
+    // 搜索名称
+    const nameMatch = record.name.toLowerCase().includes(query);
+    // 搜索时长
+    const durationMatch = record.duration.toLowerCase().includes(query);
+    // 搜索时间
+    const timeMatch = record.time.toLowerCase().includes(query);
+    
+    return nameMatch || durationMatch || timeMatch;
+  });
+});
 
-    // 切换选择状态
-    const toggleSelect = (id) => {
-      const record = records.value.find(r => r.id === id)
-      if (record) {
-        records.value.forEach(r => r.selected = false)  // 先取消所有选择
-        record.selected = true  // 选中当前记录
-      }
+    // 下拉框控制
+const toggleDropdown = () => {
+  // 只在实验正在进行时禁用展开选项
+  if (isPlaying.value){
+         return;
     }
+  dropdownOpen.value = !dropdownOpen.value;
+};
 
-    // 其他方法...
     const toggleControlDropdown = () => {
-      controlDropdownOpen.value = !controlDropdownOpen.value
+      if (isPlaying.value) {
+        return;
+    }
+        controlDropdownOpen.value = !controlDropdownOpen.value
     }
 
-    const selectControlFragment = (fragment) => {
-      controlSelectedFragment.value = fragment
-      controlDropdownOpen.value = false
+const selectFragment = async (value) => {
+    console.log('Selecting fragment for record list:', value);
+    const selected = fragments.value.find(f => f.id === value);
+    if (selected) {
+        // 更新左侧记录列表相关的状态
+        selectedFragmentLabel.value = selected.title;
+        selectedFragment.value = value;
+        currentFragment.value = selected;
+
+        // 清除所有记录的选中状态
+        records.value.forEach(r => r.selected = false);
+
+        // 获取新片段的记录列表
+        await getRecords(value);
+        
+        // 如果不是在回放模式，也更新播放器控制的片段
+        if (currentTab.value !== '回放') {
+            controlSelectedFragment.value = value;
+            await store.dispatch('experiments/setSelectedFragment', {
+                ...selected,
+                projectId: route.query.projectId
+            });
+            await loadFragmentPWM(value);
+        }
+    }
+    dropdownOpen.value = false;
+};
+
+    // 选择片段的处理方法
+// ExperimentPage.vue
+const selectControlFragment = async (value) => {
+   // 只要实验正在进行（包括暂停状态），都不允许切换片段
+   if (isPlaying.value) {
+        return;
+    }
+    console.log('Selecting fragment for playback control:', value);
+    const selected = fragments.value.find(f => f.id === value);
+    if (selected) {
+        controlSelectedFragment.value = value;
+        
+        if (currentTab.value !== '回放') {
+            // 实验记录模式：更新当前片段和加载PWM数据
+            currentFragment.value = selected;
+            await store.dispatch('experiments/setSelectedFragment', {
+                ...selected,
+                projectId: route.query.projectId
+            });
+            await loadFragmentPWM(value);
+        }
+    }
+    controlDropdownOpen.value = false;
+};
+
+    // 控制按钮方法
+    const togglePlayback = async () => {
+  if (currentTab.value === '实验记录') {
+    // 保持原有实验记录模式的逻辑不变
+    if (!currentFragment.value) {
+      alert('请先选择片段');
+      return;
     }
 
-    const togglePause = () => {
-      store.dispatch('experiments/togglePlayback')
+    if (!isPlaying.value) {
+      xyzRecords.value = [];
+      await store.dispatch('experimentPlayback/startPlayback');
+    } else if (isPaused.value) {
+      await store.dispatch('experimentPlayback/resumePlayback');
+    } else {
+      await store.dispatch('experimentPlayback/pausePlayback');
+    }
+  } else if (currentTab.value === '回放') {
+    // 回放模式新逻辑
+    if (!selectedRecordForPlayback.value) {
+      alert('请选择要回放的记录');
+      return;
     }
 
-    const play = () => {
-      console.log('Play')
+    if (!isPlaying.value) {
+      // 开始回放前清空坐标记录
+      xyzRecords.value = [];
+      // 使用专门的回放开始动作
+      await store.dispatch('experimentPlayback/startRecordPlayback', {
+        recordName: selectedRecordForPlayback.value.name,
+        fragmentId: selectedFragment.value,
+        projectId: route.query.projectId
+      });
+    } else if (isPaused.value) {
+      await store.dispatch('experimentPlayback/resumeRecordPlayback');
+    } else {
+      await store.dispatch('experimentPlayback/pauseRecordPlayback');
+    }
+  }
+};
+
+const stopPlayback = async () => {
+  // 立即清空 XYZ 坐标表格数据
+  xyzRecords.value = [];
+  
+  // 调用 store action 停止播放并清理状态
+  await store.dispatch('experimentPlayback/stopPlayback');
+};
+
+// 添加重命名等操作方法
+const handleRename = async () => {
+  if (selectedRecords.value.length !== 1) {
+    alert('请选择一条记录进行重命名');
+    return;
+  }
+  
+  const record = selectedRecords.value[0];
+  const newName = prompt('请输入新的记录名称（最多12个汉字或24个英文字符）:', record.name);
+  
+  if (!newName || newName === record.name) return;
+
+  // 验证新名称
+  const validation = validateRecordName(newName);
+  if (!validation.valid) {
+    alert(validation.message);
+    return;
+  }
+
+  try {
+    const projectId = route.query.projectId || localStorage.getItem('currentProjectId');
+    const fragmentId = currentFragment.value?.id;
+    
+    const response = await fetch(`http://${window.location.hostname}:3000/api/records/${fragmentId}/rename`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        projectId,
+        recordName: record.name,
+        newName
+      })
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || '重命名失败');
     }
 
-    const stop = () => {
-      store.dispatch('experiments/stopPlayback')
+    await getRecords(fragmentId); // 重新加载记录
+  } catch (error) {
+    console.error('重命名失败:', error);
+    alert(error.message || '重命名失败，请重试');
+  }
+};
+
+const handleDelete = async () => {
+  const selected = selectedRecords.value;
+  if (selected.length === 0) {
+    alert('请至少选择一条记录');
+    return;
+  }
+
+  if (!confirm(`确定要删除选中的 ${selected.length} 条记录吗？`)) return;
+
+  try {
+    const projectId = route.query.projectId || localStorage.getItem('currentProjectId');
+    const fragmentId = currentFragment.value?.id;
+    
+    const response = await fetch(`http://${window.location.hostname}:3000/api/records/${fragmentId}/delete`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        projectId,
+        recordNames: selected.map(r => r.name)
+      })
+    });
+
+    if (response.ok) {
+      await getRecords(fragmentId); // 重新加载记录
+    } else {
+      throw new Error('删除失败');
     }
+  } catch (error) {
+    console.error('删除记录失败:', error);
+    alert('删除失败，请重试');
+  }
+};
+
+const handleDownload = async () => {
+  const selected = selectedRecords.value;
+  if (selected.length === 0) {
+    alert('请至少选择一条记录');
+    return;
+  }
+
+  try {
+    const projectId = route.query.projectId || localStorage.getItem('currentProjectId');
+    const fragmentId = currentFragment.value?.id;
+    
+    if (selected.length === 1) {
+      // 单文件下载
+      const response = await fetch(
+        `http://${window.location.hostname}:3000/api/records/${fragmentId}/download/${selected[0].name}?projectId=${projectId}`,
+        { method: 'GET' }
+      );
+
+      if (!response.ok) throw new Error('下载失败');
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${selected[0].name}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } else {
+      // 多文件打包下载
+      const response = await fetch(`http://${window.location.hostname}:3000/api/records/${fragmentId}/batch-download`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          projectId, 
+          recordNames: selected.map(r => r.name) 
+        })
+      });
+
+      if (!response.ok) throw new Error('打包下载失败');
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `selected_records_${new Date().getTime()}.zip`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    }
+  } catch (error) {
+    console.error('下载失败:', error);
+    alert('下载失败，请重试');
+  }
+};
+
+const handleBatchDownload = async () => {
+  try {
+    const projectId = route.query.projectId || localStorage.getItem('currentProjectId');
+    const fragmentId = currentFragment.value?.id;
+    
+    // 使用所有记录的名称，而不是选中的记录
+    const recordNames = records.value.map(r => r.name);
+
+    const response = await fetch(`http://${window.location.hostname}:3000/api/records/${fragmentId}/batch-download`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ projectId, recordNames })
+    });
+
+    if (!response.ok) throw new Error('打包下载失败');
+
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `all_records_${new Date().getTime()}.zip`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error('打包下载失败:', error);
+    alert('打包下载失败，请重试');
+  }
+};
 
     const handleClose = () => {
-      console.log('关闭高级实验')
+        console.log('关闭高级实验')
     }
 
     const handleStart = () => {
-      console.log('开启高级实验')
+        console.log('开启高级实验')
     }
 
-    const handleSelect = (record) => {
-    if (currentTab.value === '回放') {
-      // 回放模式下单选
-      records.value.forEach(r => r.selected = (r.id === record.id))
+const handleSelect = async (record) => {
+  if (currentTab.value === '回放') {
+    // 如果正在播放，先停止
+    if (isPlaying.value) {
+      await store.dispatch('experimentPlayback/stopPlayback');
+    }
+
+    // 取消选择时清除播放数据
+    if (record.selected) {
+      record.selected = false;
+      store.commit('experimentPlayback/CLEAR_PLAYBACK_DATA');
+      store.commit('experimentPlayback/SET_TOTAL_FRAMES', 0);
+      store.commit('experimentPlayback/SET_DURATION', 0);
+      return;
+    }
+
+    // 在回放模式下，取消所有记录的选中状态，只选中当前记录
+    records.value.forEach(r => {
+      r.selected = r.name === record.name;
+    });
+
+    // 如果选中了记录，使用当前记录列表的片段ID加载数据
+    if (record.selected && selectedFragment.value) {
+      try {
+        const projectId = route.query.projectId || localStorage.getItem('currentProjectId');
+        await loadRecordPWMData(selectedFragment.value, record.name, projectId);
+      } catch (error) {
+        console.error('Failed to load record:', error);
+        record.selected = false;
+        store.commit('experimentPlayback/CLEAR_PLAYBACK_DATA');
+        store.commit('experimentPlayback/SET_TOTAL_FRAMES', 0);
+        store.commit('experimentPlayback/SET_DURATION', 0);
+      }
+    }
+  } else {
+    record.selected = !record.selected;
+  }
+};
+
+const loadRecordPWMData = async (fragmentId, recordName, projectId) => {
+  try {
+    console.log('Loading record PWM data:', {
+      fragmentId,
+      recordName,
+      projectId
+    });
+
+    // 首先获取回放相关的元数据
+    const response = await fetch(
+      `http://${window.location.hostname}:3000/api/records/${fragmentId}/pwm/${recordName}?projectId=${projectId}`
+    );
+
+    if (!response.ok) {
+      throw new Error('Failed to load record PWM data');
+    }
+
+    const data = await response.json();
+    if (data.success) {
+      // 设置回放模式
+      store.commit('experimentPlayback/SET_PLAYBACK_MODE', true);
+      
+      // 初始化回放模式的 WebSocket 连接
+      await store.dispatch('experimentPlayback/connectWebSocket', {
+        projectId,
+        fragmentId,
+        mode: 'playback',
+        recordName
+      });
     } else {
-      // 其他模式下多选
-      record.selected = !record.selected
+      throw new Error(data.message || 'Failed to load record data');
+    }
+  } catch (error) {
+    console.error('加载记录PWM数据失败:', error);
+    throw error;
+  }
+};
+
+const canPlay = computed(() => {
+  // 在实验记录模式下，只要有片段就可以播放
+  if (currentTab.value === '实验记录') {
+    return currentFragment.value !== null;
+  }
+  // 在回放模式下，需要选中记录才能播放
+  return selectedRecordForPlayback.value !== null;
+});
+
+    const getFanStyle = (groupIndex, fanIndex) => {
+        if (!matrixColors.value) {
+            return { backgroundColor: 'rgb(232, 232, 232)' }
+        }
+
+        const rowGroup = Math.floor(groupIndex / 12)
+        const colGroup = groupIndex % 12
+        const subRow = Math.floor(fanIndex / 3)
+        const subCol = fanIndex % 3
+        const row = rowGroup * 3 + subRow
+        const col = colGroup * 3 + subCol
+        
+        return {
+            backgroundColor: matrixColors.value[row][col]
+        }
     }
 
+    const openTerminal = () => {
+    try {
+        const terminalWindow = window.open('/terminal.html', '_blank')
+        if (terminalWindow) {
+            // 发送初始化消息到终端
+            store.commit('experimentPlayback/SET_TERMINAL_WINDOW', true)
+            
+            // 使用定时器检查终端标签页是否关闭
+            const checkInterval = setInterval(() => {
+                if (terminalWindow.closed) {
+                    clearInterval(checkInterval)
+                    store.commit('experimentPlayback/SET_TERMINAL_WINDOW', false)
+                }
+            }, 1000)
+        } else {
+            alert('弹窗被浏览器阻止,请允许弹窗后重试')
+        }
+    } catch (error) {
+        console.error('打开终端窗口失败:', error)
+    }
+}
+    
+const formatTime = (timeString) => {
+  if (!timeString) return '';
+  
+  try {
+    const date = new Date(timeString);
+    if (isNaN(date.getTime())) return '';
+    
+    // 返回格式: YYYY-MM-DD HH:mm:ss
+    return date.toLocaleString('zh-CN', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit', 
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false
+    });
+  } catch (error) {
+    console.error('Time formatting error:', error);
+    return '';
+  }
+};
+
+    const formatDuration = (duration) => {
+        // 移除's'后缀并转换为数字
+        const seconds = parseFloat(duration.replace('s', ''));
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = Math.floor(seconds % 60);
+        const milliseconds = Math.floor((seconds % 1) * 100); // 获取毫秒部分
+
+        // 格式化输出为 00:00.00
+        return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}.${String(milliseconds).padStart(2, '0')}`;
+    }
+
+    const selectedRecords = computed(() => {
+        return records.value.filter(record => record.selected);
+    })
+
+    // 添加名称验证函数
+const validateRecordName = (name) => {
+  // 计算字符串长度（一个汉字算2个长度）
+  const getStringLength = (str) => {
+    let length = 0;
+    for (let i = 0; i < str.length; i++) {
+      // 使用正则判断是否为汉字
+      length += /[\u4e00-\u9fa5]/.test(str[i]) ? 2 : 1;
+    }
+    return length;
+  };
+
+  // 检查是否包含非法字符
+  if (/[<>:"/\\|?*]/.test(name)) {
+    return {
+      valid: false,
+      message: '名称不能包含特殊字符 < > : " / \\ | ? *'
+    };
   }
 
-  const dropdownOpen = ref(false)
-const selectedFragmentLabel = ref('应对变化涡流稳定性训练')
-
-const fragmentOptions = [
-  { value: '', label: '应对变化涡流稳定性训练' },
-  { value: '1', label: '基础飞行训练' },
-  { value: '2', label: '高级控制训练' }
-]
-
-const toggleDropdown = () => {
-  dropdownOpen.value = !dropdownOpen.value
-}
-
-const selectFragment = (value) => {
-  selectedFragment.value = value
-  selectedFragmentLabel.value = fragmentOptions.find(opt => opt.value === value)?.label || ''
-  dropdownOpen.value = false
-}
+  const length = getStringLength(name);
+  if (length > 24) {
     return {
-      searchQuery,
-      selectedFragment,
-      currentTab,
-      tabs,
-      controlDropdownOpen,
-      controlSelectedFragment,
-      controlSelectedFragmentLabel,
-      controlFragmentOptions,
-      records,
-      xyzRecords,
-      filteredRecords,
-      selectedRecord,  // 添加到返回值中
-      toggleSelect,
-      toggleControlDropdown,
-      selectControlFragment,
-      togglePause,
-      play,
-      stop,
-      handleClose,
-      handleStart,
-      handleSelect,
-      selectedRecordForPlayback,
-      dropdownOpen,
-  selectedFragmentLabel,
-  fragmentOptions,
-  toggleDropdown,
-  selectFragment
+      valid: false,
+      message: '名称过长（最多12个汉字或24个英文字符）'
+    };
+  }
+
+  return { valid: true };
+};
+
+const handleCoordinateUpdate = (coords) => {
+  // 更新 XYZ 数据表格
+  if (!xyzRecords.value) {
+    xyzRecords.value = [];
+  }
+
+  // 创建新记录
+  const newRecord = {
+    id: Date.now(), // 添加唯一ID
+    time: coords.time || currentTime.value, // 使用当前播放时间如果没有提供时间
+    x: coords.x,
+    y: coords.y,
+    z: coords.z
+  };
+
+  // 更新记录到表格
+  xyzRecords.value.unshift(newRecord);
+    
+  // 保持最多200条记录
+  if (xyzRecords.value.length > 200) {
+    xyzRecords.value.pop();
+  }
+
+  // 更新 experimentPlayback store 中的坐标
+  store.commit('experimentPlayback/UPDATE_COORDINATES', {
+    x: coords.x,
+    y: coords.y,
+    z: coords.z
+  });
+};
+
+  // 监听记录完成并刷新列表
+  const handleRecordCompleted = async (fragmentId) => {
+    if (fragmentId === currentFragment.value?.id) {
+      await getRecords(fragmentId);
+    }
+  };
+
+  const formatRecordTime = (timeString) => {
+  if (!timeString) return '';
+  
+  try {
+    const date = new Date(timeString);
+    if (isNaN(date.getTime())) return '';
+    
+    // 格式化为 YYYY/MM/DD HH:mm:ss
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    
+    return `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
+  } catch (error) {
+    console.error('时间格式化错误:', error);
+    return '';
+  }
+};
+
+const formatRecordDuration = (duration) => {
+  if (!duration) return '00:00.00';
+  
+  const totalSeconds = parseFloat(duration);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = Math.floor(totalSeconds % 60);
+  const milliseconds = Math.floor((totalSeconds % 1) * 100);
+  
+  return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(milliseconds).padStart(2, '0')}`;
+};
+
+const isTabDisabled = (tab) => {
+      if (isPlaying.value || isPaused.value) {
+        if (currentTab.value === '实验记录') {
+          return tab !== '实验记录';
+        }
+        if (currentTab.value === '回放') {
+          return tab !== '回放';
+        }
+      }
+      return false;
+    };
+
+    // 处理标签页点击
+    const handleTabClick = (tab) => {
+      if (isTabDisabled(tab)) {
+        return;
+      }
+      currentTab.value = tab;
+    };
+
+// 在模板中使用
+const selectedRecordDetails = computed(() => {
+  if (!selectedRecordForPlayback.value) return null;
+  
+  return {
+    name: selectedRecordForPlayback.value.name,
+    duration: formatRecordDuration(selectedRecordForPlayback.value.duration),
+    time: formatRecordTime(selectedRecordForPlayback.value.time)
+  };
+});
+
+    // 监听路由变化
+    watch(
+        () => route.fullPath,
+        async () => {
+            const currentFragment = store.state.experiments.selectedFragment;
+            if (currentFragment) {
+            await getRecords(currentFragment.id);
+            }
+        }
+    )
+
+// 监听标签页变化
+watch(
+  () => currentTab.value,
+  async (newTab, oldTab) => {
+    // 如果正在播放则停止
+    if (isPlaying.value) {
+      await store.dispatch('experimentPlayback/stopPlayback');
+    }
+    
+    // 清除选中状态
+    records.value.forEach(r => r.selected = false);
+    
+    // 设置播放模式
+    store.commit('experimentPlayback/SET_PLAYBACK_MODE', newTab === '回放');
+
+    // 从回放模式切换出来时的特殊处理
+    if (oldTab === '回放') {
+      // 关闭并清理 WebSocket 连接
+      if (store.state.experimentPlayback.ws) {
+        store.state.experimentPlayback.ws.close();
+        store.commit('experimentPlayback/SET_WEBSOCKET', null);
+      }
+      
+      // 重置所有状态
+      store.commit('experimentPlayback/CLEAR_PLAYBACK_DATA');
+      store.commit('experimentPlayback/SET_TOTAL_FRAMES', 0);
+      store.commit('experimentPlayback/SET_DURATION', 0);
+      store.commit('experimentPlayback/SET_RECORD_METADATA', null);
+
+      // 如果有当前片段，重新初始化连接
+      if (currentFragment.value) {
+        try {
+          // 延迟一小段时间确保旧连接完全关闭
+          await new Promise(resolve => setTimeout(resolve, 100));
+          
+          // 重新建立实验模式的连接
+          await store.dispatch('experimentPlayback/connectWebSocket', {
+            projectId: currentFragment.value.projectId,
+            fragmentId: currentFragment.value.id
+          });
+
+          // 重新加载 PWM 数据
+          await loadFragmentPWM(currentFragment.value.id);
+        } catch (error) {
+          console.error('Failed to reinitialize experiment connection:', error);
+        }
+      }
+    }
+    
+    // 切换到回放模式时的处理
+    if (newTab === '回放') {
+      if (store.state.experimentPlayback.ws) {
+        store.state.experimentPlayback.ws.close();
+      }
+      // 初始化为0
+      store.commit('experimentPlayback/SET_TOTAL_FRAMES', 0);
+      store.commit('experimentPlayback/SET_DURATION', 0);
+    }
+  }
+);
+
+// 添加对 selectedFragment 的监听，切换片段时也清除播放数据
+watch(
+    () => selectedFragment.value,
+    () => {
+        if (currentTab.value === '回放') {
+            store.commit('experimentPlayback/CLEAR_PLAYBACK_DATA');
+            records.value.forEach(r => r.selected = false);
+        }
+    }
+);
+
+    // 监听记录状态变化
+    watch(
+        () => store.state.experimentPlayback.isRecording,
+        async (newValue, oldValue) => {
+            if (!newValue && oldValue) {
+                // 记录结束时刷新列表
+                if (currentFragment.value) {
+                    await getRecords(currentFragment.value.id)
+                }
+            }
+        }
+    )
+
+    // 监听片段选择变化
+    watch(
+    () => store.state.experiments.selectedFragment,
+    async (newFragment) => {
+        console.log('Selected fragment changed:', newFragment);
+        if (currentTab.value === '回放') {
+            // 在回放模式下，当片段改变时清除所有记录的选中状态
+            records.value.forEach(r => r.selected = false);
+            
+            // 清除当前回放状态
+            await store.dispatch('experimentPlayback/stopPlayback');
+            store.commit('experimentPlayback/CLEAR_PLAYBACK_DATA');
+        }
+    }
+);
+
+const handleCoordinateUpdateEvent = (event) => {
+  if (event && event.detail) {
+    handleCoordinateUpdate(event.detail);
+  }
+};
+
+    // 组件卸载时清理
+    onUnmounted(() => {
+        // 移除坐标更新事件监听
+        window.removeEventListener('xyz-coordinates-update', handleCoordinateUpdateEvent);
+        
+        store.state.experimentPlayback.recordCompletedCallback = null;
+        store.commit('experimentPlayback/SET_TERMINAL_WINDOW', false);
+        store.commit('experiments/SET_SELECTED_FRAGMENT', null);
+        store.dispatch('experimentPlayback/stopPlayback');
+        store.commit('experimentPlayback/CLEAR_ALL_STATES');
+        store.commit('experimentPlayback/SET_PLAYBACK_MODE', false);
+        store.commit('experimentPlayback/SET_RECORD_METADATA', null);
+    })
+
+    // 组件挂载时初始化
+    onMounted(async () => {
+      console.log('Component mounted');
+
+      // 添加坐标更新事件监听
+      window.addEventListener('xyz-coordinates-update', handleCoordinateUpdateEvent);
+
+      // 初始化 xyzRecords 数组
+      xyzRecords.value = [];
+
+      await fetchFragments();
+      const selectedFragment = store.state.experiments.selectedFragment;
+      if (selectedFragment) {
+        console.log('Loading initial fragment:', selectedFragment.id);
+        await getRecords(selectedFragment.id);
+        
+        try {
+          // 设置记录完成的回调
+          store.state.experimentPlayback.recordCompletedCallback = handleRecordCompleted;
+
+          // 连接 WebSocket
+          await store.dispatch('experimentPlayback/connectWebSocket', {
+            projectId: selectedFragment.projectId,
+            fragmentId: selectedFragment.id
+          });
+
+          // 加载 PWM 数据
+          await loadFragmentPWM(selectedFragment.id);
+        } catch (error) {
+          console.error('Failed to initialize playback:', error);
+        }
+      }
+    });
+
+    return {
+        searchQuery,
+        selectedFragment,
+        currentTab,
+        tabs,
+        controlDropdownOpen,
+        controlSelectedFragment,
+        currentFragment,
+        isLoading,
+        controlSelectedFragmentLabel: computed(() => {
+            const option = controlFragmentOptions.value.find(opt => opt.value === controlSelectedFragment.value)
+            return option ? option.label : '请选择片段'
+        }),
+        controlFragmentOptions,
+        records,
+        xyzRecords,
+        filteredRecords,
+        selectedRecord,
+        isPlaying,
+        isPaused,
+        playbackProgress,
+        currentTime,
+        totalTime,
+        matrixColors,
+        toggleControlDropdown,
+        selectControlFragment,
+        togglePlayback,
+        stopPlayback,
+        handleClose,
+        handleStart,
+        handleSelect,
+        selectedRecordForPlayback,
+        dropdownOpen,
+        selectedFragmentLabel,
+        fragmentOptions,
+        toggleDropdown,
+        selectFragment,
+        getFanStyle,
+        openTerminal,
+        formatTime,
+        formatDuration,
+        selectedRecords,
+        handleRename,
+        handleDelete,
+        handleDownload,
+        handleBatchDownload,
+        validateRecordName,
+        canPlay,
+        handleCoordinateUpdate,
+        handleCoordinateUpdateEvent,
+        loadRecordPWMData,
+        formatRecordTime,
+        formatRecordDuration,
+        selectedRecordDetails,
+        handleTabClick
     }
   }
 }
@@ -606,6 +1459,14 @@ const selectFragment = (value) => {
   position: relative;
   width: 15.5vw;
   transition: transform 0.3s, background-color 0.3s;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    &:hover {
+      transform: none;
+    }
+  }
 
   img {
     width: 1.2vw;
@@ -766,6 +1627,7 @@ const selectFragment = (value) => {
   border-radius: 0.5vw;
   aspect-ratio: 1;
   width: 45%;
+  overflow: hidden;
 }
 
 .fan-grid {
